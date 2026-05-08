@@ -28,7 +28,7 @@ export default function Signup() {
   };
 
   return (
-    <AuthShell title="Create account" subtitle="Join Maison Veil."
+    <AuthShell title="Create account" subtitle="Join Uclothes."
       footer={<>Have an account? <Link className="text-foreground underline-offset-4 hover:underline font-medium" to="/login">Sign in</Link></>}>
       <form onSubmit={submit} className="space-y-5">
         <div><Label>Full name</Label><Input className="rounded-lg mt-1.5" required value={name} onChange={e => setName(e.target.value)} /></div>

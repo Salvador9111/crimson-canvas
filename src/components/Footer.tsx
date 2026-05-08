@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="grid gap-12 md:grid-cols-4">
             {/* Brand */}
             <div>
-              <p className="text-2xl font-bold tracking-tight text-foreground">Maison Veil</p>
+              <p className="text-2xl font-bold tracking-tight text-foreground">Uclothes</p>
               <p className="mt-4 text-sm text-foreground/70 leading-relaxed">
                 Quietly considered clothing for everyday elegance. Honest fabrics, refined cuts, made to outlast trends.
               </p>
@@ -84,7 +84,7 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="bg-foreground">
         <div className="container-tight flex flex-col items-center justify-between gap-3 py-5 text-xs text-white/50 md:flex-row">
-          <span>© {new Date().getFullYear()} Maison Veil. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Uclothes. All rights reserved.</span>
           <div className="flex gap-6">
             <span className="cursor-pointer transition-colors duration-200 hover:text-white/80">Privacy Policy</span>
             <span className="cursor-pointer transition-colors duration-200 hover:text-white/80">Terms of Service</span>

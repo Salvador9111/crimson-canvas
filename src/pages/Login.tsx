@@ -24,7 +24,7 @@ export default function Login() {
   };
 
   return (
-    <AuthShell title="Sign in" subtitle="Welcome back to Maison Veil."
+    <AuthShell title="Sign in" subtitle="Welcome back to Uclothes."
       footer={<>New here? <Link className="text-foreground underline-offset-4 hover:underline font-medium" to="/signup">Create account</Link></>}>
       <form onSubmit={submit} className="space-y-5">
         <div><Label>Email</Label><Input className="rounded-lg mt-1.5" type="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>

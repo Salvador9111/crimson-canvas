@@ -62,7 +62,7 @@ export default function Header() {
 
           {/* Minimal logo — DESIGN.md */}
           <Link to="/" className="text-xl font-semibold tracking-tight">
-            Maison <span className="font-normal">Veil</span>
+            Uclothes
           </Link>
 
           {/* Nav links — medium weight, large spacing, small hover fade */}
