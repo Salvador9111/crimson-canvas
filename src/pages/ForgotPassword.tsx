@@ -25,13 +25,13 @@ export default function ForgotPassword() {
 
   return (
     <AuthShell title="Reset password" subtitle="We'll send you a link to reset your password."
-      footer={<Link className="text-primary hover:underline" to="/login">Back to sign in</Link>}>
+      footer={<Link className="text-foreground font-medium hover:underline underline-offset-4" to="/login">Back to sign in</Link>}>
       {sent ? (
         <p className="text-sm text-muted-foreground">If an account exists for {email}, a reset link is on the way.</p>
       ) : (
-        <form onSubmit={submit} className="space-y-4">
-          <div><Label>Email</Label><Input className="rounded-none" type="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>
-          <Button type="submit" disabled={loading} className="w-full rounded-none">{loading ? "Sending…" : "Send reset link"}</Button>
+        <form onSubmit={submit} className="space-y-5">
+          <div><Label>Email</Label><Input className="rounded-lg mt-1.5" type="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>
+          <Button type="submit" disabled={loading} className="w-full rounded-pill">{loading ? "Sending…" : "Send reset link"}</Button>
         </form>
       )}
     </AuthShell>

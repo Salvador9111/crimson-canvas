@@ -7,7 +7,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 
 export default function Products() {
   const [params, setParams] = useSearchParams();
@@ -43,36 +43,50 @@ export default function Products() {
   }, [cat]);
 
   return (
-    <div className="container-tight py-12">
-      <div className="mb-10">
-        <p className="uppercase-tracked text-primary">Collection</p>
-        <h1 className="font-display mt-2 text-4xl md:text-5xl">{title}</h1>
+    <div className="container-tight py-16 animate-fade-up">
+      <div className="mb-12">
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Collection</p>
+        <div className="mt-3 flex items-end justify-between gap-4">
+          <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{title}</h1>
+          {!loading && (
+            <p className="text-sm text-muted-foreground pb-1">
+              {items.length} {items.length === 1 ? "product" : "products"}
+            </p>
+          )}
+        </div>
       </div>
 
-      <div className="mb-10 flex flex-wrap items-center gap-4 border-y border-border py-4">
+      {/* Filters — pill buttons, spacious, minimal per DESIGN.md */}
+      <div className="mb-12 flex flex-wrap items-center gap-4 border-y border-border py-5">
+        <div className="flex items-center gap-2 mr-2">
+          <SlidersHorizontal className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+          <span className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground hidden sm:inline">Filter</span>
+        </div>
         <div className="flex flex-wrap gap-2">
           {[{ slug: "all", label: "All" }, ...CATEGORIES].map(c => (
             <button
               key={c.slug}
               onClick={() => setParam("category", c.slug)}
-              className={`uppercase-tracked rounded-none border px-4 py-2 transition-colors ${
-                cat === c.slug ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary"
+              className={`rounded-pill px-5 py-2.5 text-xs font-medium uppercase tracking-[0.12em] transition-all duration-300 ${
+                cat === c.slug
+                  ? "bg-foreground text-background"
+                  : "border border-border hover:bg-[#F2F2F2]"
               }`}
             >{c.label}</button>
           ))}
         </div>
         <div className="ml-auto flex flex-wrap items-center gap-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" strokeWidth={1.5} />
             <Input
               defaultValue={q}
               onChange={e => setParam("q", e.target.value)}
               placeholder="Search products"
-              className="w-56 rounded-none pl-9"
+              className="w-56 rounded-pill pl-9"
             />
           </div>
           <Select value={sort} onValueChange={v => setParam("sort", v)}>
-            <SelectTrigger className="w-44 rounded-none"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="w-44 rounded-pill"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="newest">Newest</SelectItem>
               <SelectItem value="price-asc">Price: Low to High</SelectItem>
@@ -84,11 +98,26 @@ export default function Products() {
       </div>
 
       {loading ? (
-        <p className="py-16 text-center text-muted-foreground">Loading…</p>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="space-y-4">
+              <div className="aspect-[4/5] rounded-lg shimmer" />
+              <div className="space-y-2">
+                <div className="h-3 w-16 rounded shimmer" />
+                <div className="h-4 w-32 rounded shimmer" />
+                <div className="h-3 w-20 rounded shimmer" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : items.length === 0 ? (
-        <p className="py-16 text-center text-muted-foreground">No products found.</p>
+        <div className="py-24 text-center">
+          <p className="text-lg font-medium text-foreground">No products found</p>
+          <p className="mt-2 text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
+        </div>
       ) : (
-        <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        /* 4-column desktop, 2-column tablet/mobile, 24px gap per DESIGN.md */
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 animate-stagger">
           {items.map(p => <ProductCard key={p.id} p={p} />)}
         </div>
       )}

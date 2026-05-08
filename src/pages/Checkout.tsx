@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/format";
 import { toast } from "sonner";
+import { ShieldCheck, Lock } from "lucide-react";
 
 export default function Checkout() {
   const { items, subtotal, clear } = useCart();
@@ -53,39 +54,56 @@ export default function Checkout() {
   }
 
   return (
-    <div className="container-tight py-12">
-      <h1 className="font-display text-4xl md:text-5xl">Checkout</h1>
-      <div className="mt-10 grid gap-12 md:grid-cols-[1fr_360px]">
-        <form onSubmit={submit} className="space-y-6">
-          <h2 className="font-display text-2xl">Shipping</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="md:col-span-2"><Label>Full name</Label><Input className="rounded-none" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
-            <div className="md:col-span-2"><Label>Address</Label><Input className="rounded-none" required value={form.address} onChange={e => setForm({...form, address: e.target.value})} /></div>
-            <div><Label>City</Label><Input className="rounded-none" required value={form.city} onChange={e => setForm({...form, city: e.target.value})} /></div>
-            <div><Label>Postal code</Label><Input className="rounded-none" required value={form.zip} onChange={e => setForm({...form, zip: e.target.value})} /></div>
+    <div className="container-tight py-16 animate-fade-up">
+      <h1 className="text-4xl font-bold tracking-tight md:text-5xl">Checkout</h1>
+      <div className="mt-12 grid gap-12 md:grid-cols-[1fr_360px]">
+        <form onSubmit={submit} className="space-y-8">
+          <div>
+            <h2 className="text-xl font-semibold">Shipping</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Where should we send your order?</p>
+          </div>
+          {/* Inputs — large padding, rounded corners, soft borders per DESIGN.md */}
+          <div className="grid gap-5 md:grid-cols-2">
+            <div className="md:col-span-2"><Label>Full name</Label><Input className="rounded-lg mt-1.5" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
+            <div className="md:col-span-2"><Label>Address</Label><Input className="rounded-lg mt-1.5" required value={form.address} onChange={e => setForm({...form, address: e.target.value})} /></div>
+            <div><Label>City</Label><Input className="rounded-lg mt-1.5" required value={form.city} onChange={e => setForm({...form, city: e.target.value})} /></div>
+            <div><Label>Postal code</Label><Input className="rounded-lg mt-1.5" required value={form.zip} onChange={e => setForm({...form, zip: e.target.value})} /></div>
           </div>
 
-          <h2 className="font-display pt-6 text-2xl">Payment</h2>
-          <div className="border border-dashed border-border bg-secondary/40 p-6 text-sm text-muted-foreground">
-            Mock payment — no card needed. Click "Place order" to complete the demo purchase.
+          <div>
+            <h2 className="text-xl font-semibold pt-4">Payment</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Securely complete your purchase.</p>
+          </div>
+          <div className="rounded-xl border border-dashed border-border bg-[#FAFAFA] p-8">
+            <div className="flex items-center gap-3 text-sm text-muted-foreground">
+              <Lock className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+              Mock payment — no card needed. Click "Place order" to complete the demo purchase.
+            </div>
           </div>
 
-          <Button type="submit" disabled={loading} size="lg" className="w-full rounded-none">
+          <Button type="submit" disabled={loading} size="lg" className="w-full rounded-pill">
             {loading ? "Placing…" : "Place order"}
           </Button>
+          <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+            <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.5} />
+            Your information is encrypted and secure
+          </div>
         </form>
 
-        <aside className="h-fit border border-border p-6">
-          <h2 className="font-display text-2xl">Order</h2>
-          <div className="mt-4 divide-y divide-border">
+        <aside className="h-fit rounded-xl border border-border p-8">
+          <h2 className="text-xl font-semibold">Order</h2>
+          <div className="mt-6 divide-y divide-border">
             {items.map(i => (
-              <div key={i.id} className="flex justify-between py-3 text-sm">
-                <span>{i.product.name} × {i.quantity}</span>
-                <span>{formatPrice(i.product.price * i.quantity)}</span>
+              <div key={i.id} className="flex items-center gap-4 py-4 text-sm">
+                {i.product.image_url && (
+                  <img src={i.product.image_url} alt={i.product.name} className="h-14 w-12 rounded-lg object-cover" />
+                )}
+                <span className="flex-1">{i.product.name} × {i.quantity}</span>
+                <span className="font-medium">{formatPrice(i.product.price * i.quantity)}</span>
               </div>
             ))}
           </div>
-          <div className="hairline mt-4 flex justify-between pt-4">
+          <div className="mt-4 border-t border-border flex justify-between pt-5 font-medium">
             <span>Total</span><span>{formatPrice(subtotal)}</span>
           </div>
         </aside>
