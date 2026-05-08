@@ -17,14 +17,14 @@ type ProfileRow = { id: string; full_name: string | null; created_at: string };
 
 export default function Admin() {
   return (
-    <div className="container-tight py-12">
-      <p className="uppercase-tracked text-primary">Admin</p>
-      <h1 className="font-display mt-2 text-4xl md:text-5xl">Dashboard</h1>
-      <Tabs defaultValue="products" className="mt-10">
-        <TabsList className="rounded-none">
-          <TabsTrigger value="products" className="rounded-none">Products</TabsTrigger>
-          <TabsTrigger value="orders" className="rounded-none">Orders</TabsTrigger>
-          <TabsTrigger value="users" className="rounded-none">Users</TabsTrigger>
+    <div className="container-tight py-16 animate-fade-up">
+      <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Admin</p>
+      <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">Dashboard</h1>
+      <Tabs defaultValue="products" className="mt-12">
+        <TabsList className="rounded-pill bg-[#F5F5F5]">
+          <TabsTrigger value="products" className="rounded-pill">Products</TabsTrigger>
+          <TabsTrigger value="orders" className="rounded-pill">Orders</TabsTrigger>
+          <TabsTrigger value="users" className="rounded-pill">Users</TabsTrigger>
         </TabsList>
         <TabsContent value="products"><ProductsTab /></TabsContent>
         <TabsContent value="orders"><OrdersTab /></TabsContent>
@@ -66,32 +66,32 @@ function ProductsTab() {
   };
 
   return (
-    <div className="mt-8">
-      <div className="mb-4 flex justify-end">
-        <Button className="rounded-none" onClick={() => { setEditing(emptyProduct()); setOpen(true); }}>
-          <Plus className="mr-2 h-4 w-4" /> New product
+    <div className="mt-10">
+      <div className="mb-6 flex justify-end">
+        <Button className="rounded-pill" onClick={() => { setEditing(emptyProduct()); setOpen(true); }}>
+          <Plus className="mr-2 h-4 w-4" strokeWidth={1.5} /> New product
         </Button>
       </div>
-      <div className="overflow-x-auto border border-border">
+      <div className="overflow-x-auto rounded-xl border border-border">
         <table className="w-full text-sm">
-          <thead className="bg-secondary text-left">
+          <thead className="bg-[#FAFAFA] text-left">
             <tr>
-              <th className="p-3">Name</th><th className="p-3">Category</th><th className="p-3">Price</th><th className="p-3">Stock</th><th className="p-3"></th>
+              <th className="p-4 font-medium">Name</th><th className="p-4 font-medium">Category</th><th className="p-4 font-medium">Price</th><th className="p-4 font-medium">Stock</th><th className="p-4"></th>
             </tr>
           </thead>
           <tbody>
             {items.map(p => (
-              <tr key={p.id} className="border-t border-border">
-                <td className="p-3 flex items-center gap-3">
-                  {p.image_url && <img src={p.image_url} alt="" className="h-10 w-8 object-cover" />}
+              <tr key={p.id} className="border-t border-border transition-colors duration-200 hover:bg-[#FAFAFA]">
+                <td className="p-4 flex items-center gap-3">
+                  {p.image_url && <img src={p.image_url} alt="" className="h-10 w-8 rounded-lg object-cover" />}
                   {p.name}
                 </td>
-                <td className="p-3">{p.category}</td>
-                <td className="p-3">{formatPrice(p.price)}</td>
-                <td className="p-3">{p.stock}</td>
-                <td className="p-3 text-right">
-                  <Button variant="ghost" size="sm" onClick={() => { setEditing(p); setOpen(true); }}><Pencil className="h-4 w-4" /></Button>
-                  <Button variant="ghost" size="sm" onClick={() => remove(p.id)}><Trash className="h-4 w-4" /></Button>
+                <td className="p-4 capitalize">{p.category}</td>
+                <td className="p-4">{formatPrice(p.price)}</td>
+                <td className="p-4">{p.stock}</td>
+                <td className="p-4 text-right">
+                  <Button variant="ghost" size="sm" className="rounded-lg" onClick={() => { setEditing(p); setOpen(true); }}><Pencil className="h-4 w-4" strokeWidth={1.5} /></Button>
+                  <Button variant="ghost" size="sm" className="rounded-lg" onClick={() => remove(p.id)}><Trash className="h-4 w-4" strokeWidth={1.5} /></Button>
                 </td>
               </tr>
             ))}
@@ -100,28 +100,28 @@ function ProductsTab() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="rounded-none">
+        <DialogContent className="rounded-xl">
           <DialogHeader><DialogTitle>{editing?.id ? "Edit product" : "New product"}</DialogTitle></DialogHeader>
           {editing && (
-            <div className="space-y-3">
-              <div><Label>Name</Label><Input className="rounded-none" value={editing.name ?? ""} onChange={e => setEditing({...editing, name: e.target.value})} /></div>
-              <div><Label>Slug</Label><Input className="rounded-none" placeholder="auto" value={editing.slug ?? ""} onChange={e => setEditing({...editing, slug: e.target.value})} /></div>
-              <div><Label>Description</Label><Textarea className="rounded-none" value={editing.description ?? ""} onChange={e => setEditing({...editing, description: e.target.value})} /></div>
-              <div className="grid grid-cols-3 gap-3">
-                <div><Label>Price</Label><Input className="rounded-none" type="number" value={editing.price ?? 0} onChange={e => setEditing({...editing, price: Number(e.target.value)})} /></div>
-                <div><Label>Stock</Label><Input className="rounded-none" type="number" value={editing.stock ?? 0} onChange={e => setEditing({...editing, stock: Number(e.target.value)})} /></div>
+            <div className="space-y-4">
+              <div><Label>Name</Label><Input className="rounded-lg mt-1.5" value={editing.name ?? ""} onChange={e => setEditing({...editing, name: e.target.value})} /></div>
+              <div><Label>Slug</Label><Input className="rounded-lg mt-1.5" placeholder="auto" value={editing.slug ?? ""} onChange={e => setEditing({...editing, slug: e.target.value})} /></div>
+              <div><Label>Description</Label><Textarea className="rounded-lg mt-1.5" value={editing.description ?? ""} onChange={e => setEditing({...editing, description: e.target.value})} /></div>
+              <div className="grid grid-cols-3 gap-4">
+                <div><Label>Price</Label><Input className="rounded-lg mt-1.5" type="number" value={editing.price ?? 0} onChange={e => setEditing({...editing, price: Number(e.target.value)})} /></div>
+                <div><Label>Stock</Label><Input className="rounded-lg mt-1.5" type="number" value={editing.stock ?? 0} onChange={e => setEditing({...editing, stock: Number(e.target.value)})} /></div>
                 <div>
                   <Label>Category</Label>
                   <Select value={editing.category} onValueChange={v => setEditing({...editing, category: v})}>
-                    <SelectTrigger className="rounded-none"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="rounded-lg mt-1.5"><SelectValue /></SelectTrigger>
                     <SelectContent>{CATEGORIES.map(c => <SelectItem key={c.slug} value={c.slug}>{c.label}</SelectItem>)}</SelectContent>
                   </Select>
                 </div>
               </div>
-              <div><Label>Image URL</Label><Input className="rounded-none" value={editing.image_url ?? ""} onChange={e => setEditing({...editing, image_url: e.target.value})} /></div>
+              <div><Label>Image URL</Label><Input className="rounded-lg mt-1.5" value={editing.image_url ?? ""} onChange={e => setEditing({...editing, image_url: e.target.value})} /></div>
             </div>
           )}
-          <DialogFooter><Button onClick={save} className="rounded-none">Save</Button></DialogFooter>
+          <DialogFooter><Button onClick={save} className="rounded-pill">Save</Button></DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
@@ -140,21 +140,21 @@ function OrdersTab() {
   };
 
   return (
-    <div className="mt-8 overflow-x-auto border border-border">
+    <div className="mt-10 overflow-x-auto rounded-xl border border-border">
       <table className="w-full text-sm">
-        <thead className="bg-secondary text-left">
-          <tr><th className="p-3">Order</th><th className="p-3">Customer</th><th className="p-3">Date</th><th className="p-3">Total</th><th className="p-3">Status</th></tr>
+        <thead className="bg-[#FAFAFA] text-left">
+          <tr><th className="p-4 font-medium">Order</th><th className="p-4 font-medium">Customer</th><th className="p-4 font-medium">Date</th><th className="p-4 font-medium">Total</th><th className="p-4 font-medium">Status</th></tr>
         </thead>
         <tbody>
           {orders.map(o => (
-            <tr key={o.id} className="border-t border-border">
-              <td className="p-3 font-mono text-xs">{o.id.slice(0, 8)}</td>
-              <td className="p-3">{o.shipping_name ?? "—"}</td>
-              <td className="p-3">{new Date(o.created_at).toLocaleDateString()}</td>
-              <td className="p-3">{formatPrice(o.total)}</td>
-              <td className="p-3">
+            <tr key={o.id} className="border-t border-border transition-colors duration-200 hover:bg-[#FAFAFA]">
+              <td className="p-4 font-mono text-xs">{o.id.slice(0, 8)}</td>
+              <td className="p-4">{o.shipping_name ?? "—"}</td>
+              <td className="p-4">{new Date(o.created_at).toLocaleDateString()}</td>
+              <td className="p-4">{formatPrice(o.total)}</td>
+              <td className="p-4">
                 <Select value={o.status} onValueChange={v => setStatus(o.id, v)}>
-                  <SelectTrigger className="w-36 rounded-none"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="w-36 rounded-pill"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="pending">Pending</SelectItem>
                     <SelectItem value="paid">Paid</SelectItem>
@@ -194,19 +194,19 @@ function UsersTab() {
   };
 
   return (
-    <div className="mt-8 overflow-x-auto border border-border">
+    <div className="mt-10 overflow-x-auto rounded-xl border border-border">
       <table className="w-full text-sm">
-        <thead className="bg-secondary text-left">
-          <tr><th className="p-3">Name</th><th className="p-3">Joined</th><th className="p-3">Role</th><th className="p-3"></th></tr>
+        <thead className="bg-[#FAFAFA] text-left">
+          <tr><th className="p-4 font-medium">Name</th><th className="p-4 font-medium">Joined</th><th className="p-4 font-medium">Role</th><th className="p-4"></th></tr>
         </thead>
         <tbody>
           {users.map(u => (
-            <tr key={u.id} className="border-t border-border">
-              <td className="p-3">{u.full_name || <span className="text-muted-foreground">Unnamed</span>}</td>
-              <td className="p-3">{new Date(u.created_at).toLocaleDateString()}</td>
-              <td className="p-3">{admins.has(u.id) ? <span className="uppercase-tracked text-primary">Admin</span> : "Customer"}</td>
-              <td className="p-3 text-right">
-                <Button variant="outline" size="sm" className="rounded-none" onClick={() => toggleAdmin(u.id)}>
+            <tr key={u.id} className="border-t border-border transition-colors duration-200 hover:bg-[#FAFAFA]">
+              <td className="p-4">{u.full_name || <span className="text-muted-foreground">Unnamed</span>}</td>
+              <td className="p-4">{new Date(u.created_at).toLocaleDateString()}</td>
+              <td className="p-4">{admins.has(u.id) ? <span className="text-xs font-medium uppercase tracking-[0.18em]">Admin</span> : "Customer"}</td>
+              <td className="p-4 text-right">
+                <Button variant="outline" size="sm" className="rounded-pill" onClick={() => toggleAdmin(u.id)}>
                   {admins.has(u.id) ? "Remove admin" : "Make admin"}
                 </Button>
               </td>

@@ -53,39 +53,40 @@ export default function Checkout() {
   }
 
   return (
-    <div className="container-tight py-12">
-      <h1 className="font-display text-4xl md:text-5xl">Checkout</h1>
-      <div className="mt-10 grid gap-12 md:grid-cols-[1fr_360px]">
-        <form onSubmit={submit} className="space-y-6">
-          <h2 className="font-display text-2xl">Shipping</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="md:col-span-2"><Label>Full name</Label><Input className="rounded-none" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
-            <div className="md:col-span-2"><Label>Address</Label><Input className="rounded-none" required value={form.address} onChange={e => setForm({...form, address: e.target.value})} /></div>
-            <div><Label>City</Label><Input className="rounded-none" required value={form.city} onChange={e => setForm({...form, city: e.target.value})} /></div>
-            <div><Label>Postal code</Label><Input className="rounded-none" required value={form.zip} onChange={e => setForm({...form, zip: e.target.value})} /></div>
+    <div className="container-tight py-16 animate-fade-up">
+      <h1 className="text-4xl font-bold tracking-tight md:text-5xl">Checkout</h1>
+      <div className="mt-12 grid gap-12 md:grid-cols-[1fr_360px]">
+        <form onSubmit={submit} className="space-y-8">
+          <h2 className="text-xl font-semibold">Shipping</h2>
+          {/* Inputs — large padding, rounded corners, soft borders per DESIGN.md */}
+          <div className="grid gap-5 md:grid-cols-2">
+            <div className="md:col-span-2"><Label>Full name</Label><Input className="rounded-lg mt-1.5" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
+            <div className="md:col-span-2"><Label>Address</Label><Input className="rounded-lg mt-1.5" required value={form.address} onChange={e => setForm({...form, address: e.target.value})} /></div>
+            <div><Label>City</Label><Input className="rounded-lg mt-1.5" required value={form.city} onChange={e => setForm({...form, city: e.target.value})} /></div>
+            <div><Label>Postal code</Label><Input className="rounded-lg mt-1.5" required value={form.zip} onChange={e => setForm({...form, zip: e.target.value})} /></div>
           </div>
 
-          <h2 className="font-display pt-6 text-2xl">Payment</h2>
-          <div className="border border-dashed border-border bg-secondary/40 p-6 text-sm text-muted-foreground">
+          <h2 className="text-xl font-semibold pt-4">Payment</h2>
+          <div className="rounded-xl border border-dashed border-border bg-[#FAFAFA] p-8 text-sm text-muted-foreground">
             Mock payment — no card needed. Click "Place order" to complete the demo purchase.
           </div>
 
-          <Button type="submit" disabled={loading} size="lg" className="w-full rounded-none">
+          <Button type="submit" disabled={loading} size="lg" className="w-full rounded-pill">
             {loading ? "Placing…" : "Place order"}
           </Button>
         </form>
 
-        <aside className="h-fit border border-border p-6">
-          <h2 className="font-display text-2xl">Order</h2>
-          <div className="mt-4 divide-y divide-border">
+        <aside className="h-fit rounded-xl border border-border p-8">
+          <h2 className="text-xl font-semibold">Order</h2>
+          <div className="mt-6 divide-y divide-border">
             {items.map(i => (
-              <div key={i.id} className="flex justify-between py-3 text-sm">
+              <div key={i.id} className="flex justify-between py-4 text-sm">
                 <span>{i.product.name} × {i.quantity}</span>
                 <span>{formatPrice(i.product.price * i.quantity)}</span>
               </div>
             ))}
           </div>
-          <div className="hairline mt-4 flex justify-between pt-4">
+          <div className="mt-4 border-t border-border flex justify-between pt-5 font-medium">
             <span>Total</span><span>{formatPrice(subtotal)}</span>
           </div>
         </aside>

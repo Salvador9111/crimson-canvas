@@ -24,9 +24,9 @@ export default function ResetPassword() {
 
   return (
     <AuthShell title="Set new password" subtitle="Choose a new password for your account.">
-      <form onSubmit={submit} className="space-y-4">
-        <div><Label>New password</Label><Input className="rounded-none" type="password" minLength={6} required value={password} onChange={e => setPassword(e.target.value)} /></div>
-        <Button type="submit" disabled={loading} className="w-full rounded-none">{loading ? "Updating…" : "Update password"}</Button>
+      <form onSubmit={submit} className="space-y-5">
+        <div><Label>New password</Label><Input className="rounded-lg mt-1.5" type="password" minLength={6} required value={password} onChange={e => setPassword(e.target.value)} /></div>
+        <Button type="submit" disabled={loading} className="w-full rounded-pill">{loading ? "Updating…" : "Update password"}</Button>
       </form>
     </AuthShell>
   );

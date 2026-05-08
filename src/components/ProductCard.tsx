@@ -13,22 +13,24 @@ export type ProductCardItem = {
 export default function ProductCard({ p }: { p: ProductCardItem }) {
   return (
     <Link to={`/products/${p.slug}`} className="group block">
-      <div className="aspect-[4/5] overflow-hidden bg-secondary">
+      {/* Image — 4:5 aspect, 16px radius, slight zoom on hover per DESIGN.md */}
+      <div className="aspect-[4/5] overflow-hidden rounded-lg bg-secondary">
         {p.image_url ? (
           <img
             src={p.image_url}
             alt={p.name}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
           />
         ) : <div className="h-full w-full bg-muted" />}
       </div>
-      <div className="mt-4 flex items-baseline justify-between gap-2">
-        <div>
-          <p className="font-display text-lg leading-tight">{p.name}</p>
-          <p className="uppercase-tracked text-muted-foreground">{p.category}</p>
-        </div>
-        <p className="text-sm">{formatPrice(p.price)}</p>
+      <div className="mt-4 space-y-1">
+        {/* Brand — small uppercase, muted color per DESIGN.md */}
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{p.category}</p>
+        {/* Product name — medium weight, tight spacing per DESIGN.md */}
+        <p className="text-base font-medium leading-tight">{p.name}</p>
+        {/* Price — slightly emphasized, no bright colors per DESIGN.md */}
+        <p className="text-sm text-[#666666]">{formatPrice(p.price)}</p>
       </div>
     </Link>
   );

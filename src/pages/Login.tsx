@@ -25,16 +25,16 @@ export default function Login() {
 
   return (
     <AuthShell title="Sign in" subtitle="Welcome back to Maison Veil."
-      footer={<>New here? <Link className="text-primary underline-offset-4 hover:underline" to="/signup">Create account</Link></>}>
-      <form onSubmit={submit} className="space-y-4">
-        <div><Label>Email</Label><Input className="rounded-none" type="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>
+      footer={<>New here? <Link className="text-foreground underline-offset-4 hover:underline font-medium" to="/signup">Create account</Link></>}>
+      <form onSubmit={submit} className="space-y-5">
+        <div><Label>Email</Label><Input className="rounded-lg mt-1.5" type="email" required value={email} onChange={e => setEmail(e.target.value)} /></div>
         <div>
           <div className="flex justify-between"><Label>Password</Label>
-            <Link to="/forgot-password" className="text-xs text-muted-foreground hover:text-primary">Forgot?</Link>
+            <Link to="/forgot-password" className="text-xs text-muted-foreground transition-colors duration-200 hover:text-foreground">Forgot?</Link>
           </div>
-          <Input className="rounded-none" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
+          <Input className="rounded-lg mt-1.5" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
         </div>
-        <Button type="submit" disabled={loading} className="w-full rounded-none">{loading ? "Signing in…" : "Sign in"}</Button>
+        <Button type="submit" disabled={loading} className="w-full rounded-pill">{loading ? "Signing in…" : "Sign in"}</Button>
       </form>
     </AuthShell>
   );
