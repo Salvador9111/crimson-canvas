@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -23,6 +23,7 @@ export default function ProductDetail() {
   const { slug } = useParams();
   const { add } = useCart();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [p, setP] = useState<Product | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [rating, setRating] = useState(5);
@@ -117,11 +118,16 @@ export default function ProductDetail() {
 
           <p className="mt-10 text-sm text-muted-foreground leading-relaxed">{p.description}</p>
 
-          {/* Add to bag — pill button per DESIGN.md */}
-          <div className="mt-12 flex items-center gap-4">
+          {/* Add to bag & Place order — pill buttons per DESIGN.md */}
+          <div className="mt-12 flex flex-wrap items-center gap-4">
             <Button size="lg" disabled={p.stock <= 0} onClick={() => add(p.id)} className="rounded-pill px-12">
               {p.stock > 0 ? "Add to bag" : "Sold out"}
             </Button>
+            {p.stock > 0 && (
+              <Button size="lg" variant="outline" onClick={() => { add(p.id); navigate("/checkout"); }} className="rounded-pill px-12 border-foreground/20 hover:bg-[#F2F2F2]">
+                Place order
+              </Button>
+            )}
             <span className="text-sm text-muted-foreground">{p.stock > 0 ? `${p.stock} in stock` : ""}</span>
           </div>
 
