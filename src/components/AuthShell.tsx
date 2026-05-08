@@ -4,7 +4,7 @@ export default function AuthShell({ title, subtitle, children, footer }: {
   title: string; subtitle?: string; children: React.ReactNode; footer?: React.ReactNode;
 }) {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-x-hidden">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 bg-[#FAFAFA]">
         <div className="absolute inset-0 opacity-[0.03]" style={{

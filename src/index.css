@@ -81,7 +81,7 @@
   * { @apply border-border; }
 
   html {
-    scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* Fix anchor link scrolling with sticky navbar */
   }
 
   body {
