@@ -7,7 +7,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 
 export default function Products() {
   const [params, setParams] = useSearchParams();
@@ -46,11 +46,22 @@ export default function Products() {
     <div className="container-tight py-16 animate-fade-up">
       <div className="mb-12">
         <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Collection</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">{title}</h1>
+        <div className="mt-3 flex items-end justify-between gap-4">
+          <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{title}</h1>
+          {!loading && (
+            <p className="text-sm text-muted-foreground pb-1">
+              {items.length} {items.length === 1 ? "product" : "products"}
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Filters — pill buttons, spacious, minimal per DESIGN.md */}
       <div className="mb-12 flex flex-wrap items-center gap-4 border-y border-border py-5">
+        <div className="flex items-center gap-2 mr-2">
+          <SlidersHorizontal className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+          <span className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground hidden sm:inline">Filter</span>
+        </div>
         <div className="flex flex-wrap gap-2">
           {[{ slug: "all", label: "All" }, ...CATEGORIES].map(c => (
             <button
@@ -87,12 +98,26 @@ export default function Products() {
       </div>
 
       {loading ? (
-        <p className="py-24 text-center text-muted-foreground">Loading…</p>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="space-y-4">
+              <div className="aspect-[4/5] rounded-lg shimmer" />
+              <div className="space-y-2">
+                <div className="h-3 w-16 rounded shimmer" />
+                <div className="h-4 w-32 rounded shimmer" />
+                <div className="h-3 w-20 rounded shimmer" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : items.length === 0 ? (
-        <p className="py-24 text-center text-muted-foreground">No products found.</p>
+        <div className="py-24 text-center">
+          <p className="text-lg font-medium text-foreground">No products found</p>
+          <p className="mt-2 text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
+        </div>
       ) : (
         /* 4-column desktop, 2-column tablet/mobile, 24px gap per DESIGN.md */
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 animate-stagger">
           {items.map(p => <ProductCard key={p.id} p={p} />)}
         </div>
       )}

@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { formatPrice } from "@/lib/format";
-import { Star } from "lucide-react";
+import { Star, Truck, RotateCcw, ShieldCheck, Heart } from "lucide-react";
 import { toast } from "sonner";
 
 type Product = {
@@ -63,7 +63,19 @@ export default function ProductDetail() {
     loadReviews(p.id);
   };
 
-  if (!p) return <div className="container-tight py-24 text-muted-foreground">Loading…</div>;
+  if (!p) return (
+    <div className="container-tight py-24">
+      <div className="grid gap-16 md:grid-cols-2">
+        <div className="aspect-[4/5] rounded-lg shimmer" />
+        <div className="space-y-6">
+          <div className="h-4 w-20 rounded shimmer" />
+          <div className="h-10 w-64 rounded shimmer" />
+          <div className="h-8 w-28 rounded shimmer" />
+          <div className="h-20 w-full rounded shimmer mt-8" />
+        </div>
+      </div>
+    </div>
+  );
 
   const avg = reviews.length ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length : 0;
 
@@ -78,8 +90,12 @@ export default function ProductDetail() {
       {/* Product layout — left image, right info, 64px gap per DESIGN.md */}
       <div className="grid gap-16 md:grid-cols-2">
         {/* Image — 16px radius per DESIGN.md */}
-        <div className="aspect-[4/5] overflow-hidden rounded-lg bg-secondary">
-          {p.image_url && <img src={p.image_url} alt={p.name} className="h-full w-full object-cover" />}
+        <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-secondary group">
+          {p.image_url && <img src={p.image_url} alt={p.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />}
+          {/* Wishlist icon */}
+          <button className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-soft transition-transform duration-200 hover:scale-110" aria-label="Add to wishlist">
+            <Heart className="h-5 w-5" strokeWidth={1.5} />
+          </button>
         </div>
 
         {/* Product info panel — luxurious spacing per DESIGN.md */}
@@ -109,8 +125,21 @@ export default function ProductDetail() {
             <span className="text-sm text-muted-foreground">{p.stock > 0 ? `${p.stock} in stock` : ""}</span>
           </div>
 
-          <div className="mt-10 border-t border-border pt-6 text-sm text-muted-foreground">
-            Free shipping over $150 · 30-day returns · Made in Portugal.
+          {/* Trust indicators — Khazanay-inspired */}
+          <div className="mt-10 grid grid-cols-3 gap-4 border-t border-border pt-8">
+            {[
+              { icon: Truck, label: "Free Shipping", desc: "Over $150" },
+              { icon: RotateCcw, label: "30-Day Returns", desc: "Easy process" },
+              { icon: ShieldCheck, label: "Authentic", desc: "Guaranteed" },
+            ].map(item => (
+              <div key={item.label} className="text-center">
+                <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-khazanay-yellow/20">
+                  <item.icon className="h-4 w-4" strokeWidth={1.5} />
+                </div>
+                <p className="mt-2 text-xs font-medium">{item.label}</p>
+                <p className="text-[11px] text-muted-foreground">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/format";
-import { Minus, Plus, X } from "lucide-react";
+import { Minus, Plus, X, ArrowLeft, ShieldCheck } from "lucide-react";
 
 export default function Cart() {
   const { items, subtotal, update, remove } = useCart();
@@ -10,12 +10,19 @@ export default function Cart() {
 
   return (
     <div className="container-tight py-16 animate-fade-up">
-      <h1 className="text-4xl font-bold tracking-tight md:text-5xl">Your bag</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">Your bag</h1>
+        <Link to="/products" className="flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground">
+          <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
+          Continue shopping
+        </Link>
+      </div>
 
       {items.length === 0 ? (
         <div className="mt-20 text-center">
-          <p className="text-muted-foreground">Your bag is empty.</p>
-          <Button asChild className="mt-8 rounded-pill px-8"><Link to="/products">Continue shopping</Link></Button>
+          <p className="text-lg text-muted-foreground">Your bag is empty.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Add some pieces to get started.</p>
+          <Button asChild className="mt-8 rounded-pill px-8"><Link to="/products">Browse collection</Link></Button>
         </div>
       ) : (
         <div className="mt-12 grid gap-12 md:grid-cols-[1fr_360px]">
@@ -27,7 +34,7 @@ export default function Cart() {
                 </Link>
                 <div className="flex flex-1 flex-col">
                   <div className="flex justify-between gap-2">
-                    <Link to={`/products/${i.product.slug}`} className="text-base font-medium">{i.product.name}</Link>
+                    <Link to={`/products/${i.product.slug}`} className="text-base font-medium transition-opacity duration-200 hover:opacity-70">{i.product.name}</Link>
                     <button onClick={() => remove(i.id)} aria-label="Remove"><X className="h-4 w-4 text-muted-foreground transition-colors duration-200 hover:text-foreground" strokeWidth={1.5} /></button>
                   </div>
                   <p className="text-sm text-muted-foreground">{formatPrice(i.product.price)}</p>
@@ -54,6 +61,10 @@ export default function Cart() {
               <span>Total</span><span>{formatPrice(subtotal)}</span>
             </div>
             <Button onClick={() => navigate("/checkout")} className="mt-6 w-full rounded-pill">Checkout</Button>
+            <div className="mt-4 flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+              <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.5} />
+              Secure checkout · 100% authentic
+            </div>
           </aside>
         </div>
       )}

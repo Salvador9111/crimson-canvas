@@ -38,6 +38,9 @@ export default {
         "hover-bg": "#F2F2F2",
         "soft-bg": "#F5F5F5",
         "gold": "#D4AF37",
+        /* Khazanay.pk-inspired accents */
+        "khazanay-yellow": "#F4E023",
+        "sale-red": "#D71920",
       },
       borderRadius: {
         /* DESIGN.md: Small UI 8px, Cards 16px, Large 24px, Pill 9999px */
