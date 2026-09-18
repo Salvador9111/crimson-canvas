@@ -1,7 +1,8 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
-import { Search, ShoppingBag, User as UserIcon, Menu, X, Heart } from "lucide-react";
+import { useWishlist } from "@/context/WishlistContext";
+import { Search, ShoppingBag, User as UserIcon, Menu, X, Heart, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
@@ -10,125 +11,207 @@ import { CATEGORIES } from "@/lib/format";
 
 export default function Header() {
   const { user, isAdmin, signOut } = useAuth();
-  const { count } = useCart();
+  const { count: cartCount } = useCart();
+  const { count: wishlistCount } = useWishlist();
   const navigate = useNavigate();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const [scrolled, setScrolled] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
+
+  const currentCategory = new URLSearchParams(location.search).get("category");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    const onScroll = () => setScrolled(window.scrollY > 15);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(`/products?q=${encodeURIComponent(q)}`);
-    setOpen(false);
+    if (q.trim()) {
+      navigate(`/products?q=${encodeURIComponent(q.trim())}`);
+      setOpen(false);
+    }
   };
 
-  const navCls = ({ isActive }: { isActive: boolean }) =>
-    `text-sm font-medium transition-opacity duration-300 hover:opacity-60 ${isActive ? "opacity-100" : "opacity-80"}`;
+  const getLinkCls = (active: boolean) =>
+    `text-sm font-medium transition-colors duration-200 ${
+      active
+        ? "text-primary font-semibold"
+        : "text-foreground/75 hover:text-foreground"
+    }`;
 
   return (
     <>
-      {/* Announcement bar — Khazanay-inspired promo strip */}
-      <div className="bg-foreground text-background overflow-hidden">
-        <div className="flex items-center justify-center h-9">
-          <div className="flex items-center gap-2 animate-marquee whitespace-nowrap">
-            <span className="text-[11px] tracking-[0.12em] uppercase font-medium">
-              Free Shipping on Orders Over $150 &nbsp;·&nbsp; 30-Day Easy Returns &nbsp;·&nbsp; 100% Authentic Products &nbsp;·&nbsp;
-            </span>
-            <span className="text-[11px] tracking-[0.12em] uppercase font-medium">
-              Free Shipping on Orders Over $150 &nbsp;·&nbsp; 30-Day Easy Returns &nbsp;·&nbsp; 100% Authentic Products &nbsp;·&nbsp;
-            </span>
-          </div>
-        </div>
-      </div>
-
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-md border-b border-border shadow-soft"
+            ? "bg-white/95 backdrop-blur-md shadow-soft border-b border-border/80"
             : "bg-white border-b border-border"
         }`}
       >
-        {/* Desktop: 72px, Mobile: 64px per DESIGN.md */}
-        <div className="container-tight flex h-[72px] md:h-[72px] items-center justify-between gap-8">
-          <button onClick={() => setOpen(!open)} className="md:hidden" aria-label="Menu">
-            {open ? <X className="h-5 w-5" strokeWidth={1.5} /> : <Menu className="h-5 w-5" strokeWidth={1.5} />}
+        <div className="container-tight flex h-[72px] items-center justify-between gap-6">
+          {/* Mobile menu trigger */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="md:hidden p-1.5 text-foreground hover:text-primary transition-colors"
+            aria-label="Toggle menu"
+          >
+            {open ? <X className="h-5 w-5" strokeWidth={1.75} /> : <Menu className="h-5 w-5" strokeWidth={1.75} />}
           </button>
 
-          {/* Minimal logo — DESIGN.md */}
-          <Link to="/" className="text-xl font-semibold tracking-tight">
-            Uclothes
+          {/* Logo — Clean contemporary typography */}
+          <Link to="/" className="flex items-center gap-2 group">
+            <span className="text-2xl font-bold tracking-tight text-charcoal-dark group-hover:text-primary transition-colors">
+              Uclothes
+            </span>
           </Link>
 
-          {/* Nav links — medium weight, large spacing, small hover fade */}
-          <nav className="hidden items-center gap-10 md:flex">
-            <NavLink to="/" end className={navCls}>Home</NavLink>
-            <NavLink to="/products" className={navCls}>Shop</NavLink>
+          {/* Nav links — clean text without colored background pills */}
+          <nav className="hidden items-center gap-8 md:flex">
+            <Link to="/" className={getLinkCls(location.pathname === "/")}>Home</Link>
+            <Link to="/products" className={getLinkCls(location.pathname === "/products" && !currentCategory)}>Shop All</Link>
             {CATEGORIES.map(c => (
-              <NavLink key={c.slug} to={`/products?category=${c.slug}`} className="text-sm font-medium opacity-80 transition-opacity duration-300 hover:opacity-60">{c.label}</NavLink>
+              <Link
+                key={c.slug}
+                to={`/products?category=${c.slug}`}
+                className={getLinkCls(location.pathname === "/products" && currentCategory === c.slug)}
+              >
+                {c.label}
+              </Link>
             ))}
+            <Link to="/about" className={getLinkCls(location.pathname === "/about")}>About</Link>
           </nav>
 
-          <div className="flex items-center gap-5">
-            {/* Prominent search — Khazanay-style pill search bar */}
-            <form onSubmit={submit} className="hidden md:flex items-center bg-[#F5F5F5] rounded-pill px-4 py-2 transition-all duration-300 focus-within:bg-[#EAEAEA] focus-within:ring-1 focus-within:ring-foreground/10">
-              <Search className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+          {/* Actions: Search, Wishlist, User, Bag */}
+          <div className="flex items-center gap-4">
+            {/* Search Input */}
+            <form
+              onSubmit={submit}
+              className={`hidden md:flex items-center rounded-pill bg-background border transition-all duration-300 px-3.5 py-1.5 ${
+                searchFocused
+                  ? "border-primary ring-2 ring-primary/20 w-64 bg-white"
+                  : "border-border hover:border-border/80 w-48"
+              }`}
+            >
+              <Search className="h-4 w-4 text-muted-foreground shrink-0" strokeWidth={1.75} />
               <input
-                value={q} onChange={e => setQ(e.target.value)}
-                placeholder="Search products..."
-                className="w-44 bg-transparent px-2.5 py-0.5 text-sm outline-none placeholder:text-muted-foreground"
+                value={q}
+                onChange={e => setQ(e.target.value)}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+                placeholder="Search"
+                className="w-full bg-transparent px-2.5 text-xs text-foreground placeholder:text-muted-foreground outline-none"
               />
             </form>
 
-            <Link to="/products" className="hidden md:block">
-              <Heart className="h-5 w-5 opacity-80 transition-opacity duration-300 hover:opacity-60" strokeWidth={1.5} />
+            {/* Wishlist Link */}
+            <Link
+              to="/wishlist"
+              className="relative p-2 text-foreground/80 hover:text-primary transition-colors rounded-full hover:bg-secondary/60"
+              aria-label="View wishlist"
+            >
+              <Heart className="h-5 w-5" strokeWidth={1.75} />
+              {wishlistCount > 0 && (
+                <span className="absolute 0 top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white shadow-sm">
+                  {wishlistCount}
+                </span>
+              )}
             </Link>
 
+            {/* Account dropdown */}
             {user ? (
               <DropdownMenu>
-                <DropdownMenuTrigger className="rounded-full p-1.5 hover:bg-hover-bg transition-colors duration-200"><UserIcon className="h-5 w-5" strokeWidth={1.5} /></DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-44">
-                  <DropdownMenuItem onClick={() => navigate("/account")}>My Account</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/account?tab=orders")}>Orders</DropdownMenuItem>
-                  {isAdmin && <DropdownMenuItem onClick={() => navigate("/admin")}>Admin</DropdownMenuItem>}
+                <DropdownMenuTrigger
+                  className="rounded-full p-2 text-foreground/80 hover:text-primary hover:bg-secondary/60 transition-colors outline-none"
+                  aria-label="Account options"
+                >
+                  <UserIcon className="h-5 w-5" strokeWidth={1.75} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 p-1.5 shadow-card rounded-xl border border-border">
+                  <DropdownMenuItem onClick={() => navigate("/account")} className="rounded-lg cursor-pointer">
+                    My Account
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/account?tab=orders")} className="rounded-lg cursor-pointer">
+                    Orders & History
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/wishlist")} className="rounded-lg cursor-pointer">
+                    Wishlist ({wishlistCount})
+                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem onClick={() => navigate("/admin")} className="rounded-lg cursor-pointer text-primary font-medium">
+                      Admin Dashboard
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={signOut}>Sign out</DropdownMenuItem>
+                  <DropdownMenuItem onClick={signOut} className="rounded-lg cursor-pointer text-destructive">
+                    Sign out
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link to="/login" className="text-sm font-medium opacity-80 transition-opacity duration-300 hover:opacity-60">Sign in</Link>
+              <Link
+                to="/login"
+                className="hidden sm:inline-flex text-xs font-semibold uppercase tracking-[0.14em] text-foreground/80 hover:text-primary transition-colors px-2 py-1"
+              >
+                Sign in
+              </Link>
             )}
 
-            {/* Cart with Khazanay-style yellow badge */}
-            <Link to="/cart" className="relative">
-              <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
-              {count > 0 && (
-                <span className="absolute -right-2 -top-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-khazanay-yellow text-[10px] font-bold text-foreground">
-                  {count}
+            {/* Shopping Bag */}
+            <Link
+              to="/cart"
+              className="relative flex items-center justify-center rounded-full bg-secondary/80 p-2.5 text-primary hover:bg-secondary transition-all hover:scale-105"
+              aria-label="Shopping bag"
+            >
+              <ShoppingBag className="h-4 w-4" strokeWidth={2} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white shadow-sm">
+                  {cartCount}
                 </span>
               )}
             </Link>
           </div>
         </div>
 
-        {/* Mobile menu — slide drawer style per DESIGN.md */}
+        {/* Mobile menu */}
         {open && (
-          <div className="border-t border-border bg-white md:hidden">
-            <div className="container-tight space-y-4 py-6">
-              <form onSubmit={submit} className="flex items-center bg-[#F5F5F5] rounded-pill px-4 py-3">
-                <Search className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
-                <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search products..." className="w-full bg-transparent px-3 py-1 text-sm outline-none" />
+          <div className="border-t border-border bg-white md:hidden animate-fade-up">
+            <div className="container-tight space-y-3 py-6">
+              <form onSubmit={submit} className="flex items-center rounded-pill bg-background border border-border px-4 py-2.5">
+                <Search className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
+                <input
+                  value={q}
+                  onChange={e => setQ(e.target.value)}
+                  placeholder="Search"
+                  className="w-full bg-transparent px-3 text-sm outline-none"
+                />
               </form>
-              <NavLink to="/" end onClick={() => setOpen(false)} className="block py-3 text-sm font-medium">Home</NavLink>
-              <NavLink to="/products" onClick={() => setOpen(false)} className="block py-3 text-sm font-medium">Shop</NavLink>
-              {CATEGORIES.map(c => (
-                <NavLink key={c.slug} to={`/products?category=${c.slug}`} onClick={() => setOpen(false)} className="block py-3 text-sm font-medium">{c.label}</NavLink>
-              ))}
+              <div className="pt-2 space-y-1">
+                <Link to="/" onClick={() => setOpen(false)} className={`block px-3 py-2 text-sm font-medium ${location.pathname === "/" ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"}`}>Home</Link>
+                <Link to="/products" onClick={() => setOpen(false)} className={`block px-3 py-2 text-sm font-medium ${location.pathname === "/products" && !currentCategory ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"}`}>Shop All</Link>
+                {CATEGORIES.map(c => (
+                  <Link
+                    key={c.slug}
+                    to={`/products?category=${c.slug}`}
+                    onClick={() => setOpen(false)}
+                    className={`block px-3 py-2 text-sm font-medium ${location.pathname === "/products" && currentCategory === c.slug ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"}`}
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+                <Link to="/about" onClick={() => setOpen(false)} className={`block px-3 py-2 text-sm font-medium ${location.pathname === "/about" ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"}`}>About</Link>
+                <NavLink to="/wishlist" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-secondary">
+                  Wishlist ({wishlistCount})
+                </NavLink>
+                {!user && (
+                  <NavLink to="/login" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-primary rounded-lg hover:bg-secondary">
+                    Sign in / Register
+                  </NavLink>
+                )}
+              </div>
             </div>
           </div>
         )}

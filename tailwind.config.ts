@@ -8,7 +8,7 @@ export default {
     container: { center: true, padding: "1.5rem", screens: { "2xl": "1440px" } },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -33,14 +33,27 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        /* DESIGN.md specific named colors */
+        /* ChatGPT Suggested Uclothes Brand Colors */
+        "sage": {
+          DEFAULT: "#E8F0E8",
+          light: "#F2F7F2",
+          dark: "#D4E2D4",
+        },
+        "forest": {
+          DEFAULT: "#526653",
+          hover: "#435444",
+          light: "#69816A",
+          dark: "#344235",
+        },
+        "offwhite": "#F7F7F5",
+        "charcoal": {
+          DEFAULT: "#333333",
+          dark: "#1F2421",
+          light: "#4D4D4D",
+        },
         "text-secondary": "#666666",
-        "hover-bg": "#F2F2F2",
-        "soft-bg": "#F5F5F5",
-        "gold": "#D4AF37",
-        /* Khazanay.pk-inspired accents */
-        "khazanay-yellow": "#F4E023",
-        "sale-red": "#D71920",
+        "hover-bg": "#EFEFEF",
+        "soft-bg": "#F7F7F5",
       },
       borderRadius: {
         /* DESIGN.md: Small UI 8px, Cards 16px, Large 24px, Pill 9999px */

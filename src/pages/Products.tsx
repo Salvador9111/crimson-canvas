@@ -7,7 +7,17 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { INITIAL_PRODUCTS } from "@/lib/products";
+
+const getFilteredInitial = (category: string, queryStr: string, sortOrder: string): ProductCardItem[] => {
+  let res = [...INITIAL_PRODUCTS];
+  if (category !== "all") res = res.filter(i => i.category === category);
+  if (queryStr) res = res.filter(i => i.name.toLowerCase().includes(queryStr.toLowerCase()));
+  if (sortOrder === "price-asc") res.sort((a, b) => a.price - b.price);
+  else if (sortOrder === "price-desc") res.sort((a, b) => b.price - a.price);
+  return res as any;
+};
 
 export default function Products() {
   const [params, setParams] = useSearchParams();
@@ -15,11 +25,14 @@ export default function Products() {
   const q = params.get("q") ?? "";
   const sort = params.get("sort") ?? "newest";
 
-  const [items, setItems] = useState<ProductCardItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Instant render without skeleton screen delay
+  const [items, setItems] = useState<ProductCardItem[]>(() => getFilteredInitial(cat, q, sort));
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    // Instant synchronous update on filter change
+    setItems(getFilteredInitial(cat, q, sort));
+
     let query = supabase.from("products").select("id,slug,name,price,image_url,category");
     if (cat !== "all") query = query.eq("category", cat);
     if (q) query = query.ilike("name", `%${q}%`);
@@ -28,7 +41,11 @@ export default function Products() {
     else if (sort === "name") query = query.order("name", { ascending: true });
     else query = query.order("created_at", { ascending: false });
 
-    query.then(({ data }) => { setItems((data ?? []) as any); setLoading(false); });
+    query.then(({ data }) => {
+      if (data && data.length > 0) {
+        setItems(data as any);
+      }
+    });
   }, [cat, q, sort]);
 
   const setParam = (k: string, v: string) => {
@@ -38,87 +55,99 @@ export default function Products() {
   };
 
   const title = useMemo(() => {
-    if (cat === "all") return "All Products";
+    if (cat === "all") return "The Complete Wardrobe";
     return CATEGORIES.find(c => c.slug === cat)?.label ?? "Products";
   }, [cat]);
 
   return (
-    <div className="container-tight py-16 animate-fade-up">
-      <div className="mb-12">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Collection</p>
-        <div className="mt-3 flex items-end justify-between gap-4">
-          <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{title}</h1>
+    <div className="container-tight py-14 animate-fade-up">
+      {/* Header */}
+      <div className="mb-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Timeless Essentials</p>
+        <div className="mt-2 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl text-charcoal-dark">{title}</h1>
           {!loading && (
-            <p className="text-sm text-muted-foreground pb-1">
-              {items.length} {items.length === 1 ? "product" : "products"}
+            <p className="text-sm font-medium text-muted-foreground pb-1">
+              Showing {items.length} crafted {items.length === 1 ? "garment" : "garments"}
             </p>
           )}
         </div>
       </div>
 
-      {/* Filters — pill buttons, spacious, minimal per DESIGN.md */}
-      <div className="mb-12 flex flex-wrap items-center gap-4 border-y border-border py-5">
-        <div className="flex items-center gap-2 mr-2">
-          <SlidersHorizontal className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
-          <span className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground hidden sm:inline">Filter</span>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {[{ slug: "all", label: "All" }, ...CATEGORIES].map(c => (
+      {/* Filter and Sorting Toolbar */}
+      <div className="mb-12 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-white p-4 shadow-soft">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-1.5 mr-2 text-primary font-semibold text-xs uppercase tracking-wider">
+            <SlidersHorizontal className="h-4 w-4" />
+            <span>Category:</span>
+          </div>
+          {[{ slug: "all", label: "All Items" }, ...CATEGORIES].map(c => (
             <button
               key={c.slug}
               onClick={() => setParam("category", c.slug)}
-              className={`rounded-pill px-5 py-2.5 text-xs font-medium uppercase tracking-[0.12em] transition-all duration-300 ${
+              className={`rounded-pill px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition-all duration-200 ${
                 cat === c.slug
-                  ? "bg-foreground text-background"
-                  : "border border-border hover:bg-[#F2F2F2]"
+                  ? "bg-primary text-white shadow-soft"
+                  : "bg-secondary/60 text-foreground/80 hover:bg-secondary hover:text-foreground"
               }`}
-            >{c.label}</button>
+            >
+              {c.label}
+            </button>
           ))}
         </div>
-        <div className="ml-auto flex flex-wrap items-center gap-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" strokeWidth={1.5} />
+
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          {/* Search */}
+          <div className="relative flex-1 sm:w-56">
+            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               defaultValue={q}
               onChange={e => setParam("q", e.target.value)}
-              placeholder="Search products"
-              className="w-56 rounded-pill pl-9"
+              placeholder="Filter by name..."
+              className="rounded-pill pl-9 text-xs border-border bg-background"
             />
           </div>
+
+          {/* Sort */}
           <Select value={sort} onValueChange={v => setParam("sort", v)}>
-            <SelectTrigger className="w-44 rounded-pill"><SelectValue /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="newest">Newest</SelectItem>
-              <SelectItem value="price-asc">Price: Low to High</SelectItem>
-              <SelectItem value="price-desc">Price: High to Low</SelectItem>
-              <SelectItem value="name">Name</SelectItem>
+            <SelectTrigger className="w-48 rounded-pill border-border bg-background text-xs font-medium">
+              <ArrowUpDown className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl">
+              <SelectItem value="newest" className="text-xs">Newest Arrivals</SelectItem>
+              <SelectItem value="price-asc" className="text-xs">Price: Low to High</SelectItem>
+              <SelectItem value="price-desc" className="text-xs">Price: High to Low</SelectItem>
+              <SelectItem value="name" className="text-xs">Alphabetical</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
+      {/* Grid */}
       {loading ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="space-y-4">
-              <div className="aspect-[4/5] rounded-lg shimmer" />
+              <div className="aspect-[4/5] rounded-2xl bg-secondary animate-pulse" />
               <div className="space-y-2">
-                <div className="h-3 w-16 rounded shimmer" />
-                <div className="h-4 w-32 rounded shimmer" />
-                <div className="h-3 w-20 rounded shimmer" />
+                <div className="h-3 w-16 rounded bg-secondary animate-pulse" />
+                <div className="h-4 w-32 rounded bg-secondary animate-pulse" />
+                <div className="h-3 w-20 rounded bg-secondary animate-pulse" />
               </div>
             </div>
           ))}
         </div>
       ) : items.length === 0 ? (
-        <div className="py-24 text-center">
-          <p className="text-lg font-medium text-foreground">No products found</p>
-          <p className="mt-2 text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
+        <div className="rounded-2xl border border-dashed border-border bg-white py-24 text-center">
+          <p className="text-lg font-semibold text-charcoal-dark">No garments found</p>
+          <p className="mt-2 text-sm text-muted-foreground">Try clearing your search term or adjusting filters.</p>
         </div>
       ) : (
-        /* 4-column desktop, 2-column tablet/mobile, 24px gap per DESIGN.md */
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 animate-stagger">
-          {items.map(p => <ProductCard key={p.id} p={p} />)}
+          {items.map(p => (
+            <ProductCard key={p.id} p={p} />
+          ))}
         </div>
       )}
     </div>

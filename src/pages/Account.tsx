@@ -107,7 +107,7 @@ export default function Account() {
               <div className="flex items-center justify-between">
                 <Link to={`/products/${r.product.slug}`} className="text-base font-medium transition-opacity duration-300 hover:opacity-60">{r.product.name}</Link>
                 <div className="flex">
-                  {[1,2,3,4,5].map(i => <Star key={i} className={`h-3.5 w-3.5 ${i <= r.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-border"}`} strokeWidth={1.5} />)}
+                  {[1,2,3,4,5].map(i => <Star key={i} className={`h-3.5 w-3.5 ${i <= r.rating ? "fill-[#E5A93C] text-[#E5A93C]" : "text-border"}`} strokeWidth={1.5} />)}
                 </div>
               </div>
               {r.comment && <p className="mt-2 text-sm text-muted-foreground">{r.comment}</p>}
