@@ -55,7 +55,7 @@ export default function Footer() {
 
           {/* Shop Links */}
           <div className="md:col-span-2 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-secondary">Collections</h4>
+            <h4 className="text-xs font-bold tracking-wide text-secondary">Collections</h4>
             <ul className="space-y-2.5 text-sm text-white/70">
               <li>
                 <Link to="/products?category=shirts" className="hover:text-white transition-colors">
@@ -87,7 +87,7 @@ export default function Footer() {
 
           {/* Customer Care */}
           <div className="md:col-span-2 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-secondary">Customer Care</h4>
+            <h4 className="text-xs font-bold tracking-wide text-secondary">Customer Care</h4>
             <ul className="space-y-2.5 text-sm text-white/70">
               <li>
                 <Link to="/about" className="hover:text-white transition-colors">
@@ -96,30 +96,30 @@ export default function Footer() {
               </li>
               <li>
                 <span className="hover:text-white transition-colors cursor-pointer">
-                  Size Guide & Measurements
+                  Size Guide
                 </span>
               </li>
               <li>
                 <span className="hover:text-white transition-colors cursor-pointer">
-                  Worldwide Shipping Policy
+                  Shipping Policy
                 </span>
               </li>
               <li>
                 <span className="hover:text-white transition-colors cursor-pointer">
-                  30-Day Returns & Exchanges
+                  Returns & Exchanges
                 </span>
               </li>
               <li>
                 <span className="hover:text-white transition-colors cursor-pointer">
-                  Sustainability Standards
+                  Sustainability
                 </span>
               </li>
             </ul>
           </div>
 
           {/* Newsletter / Club */}
-          <div className="md:col-span-4 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-secondary">Private Archive Club</h4>
+          <div className="md:col-span-4 space-y-3">
+            <h4 className="text-xs font-bold tracking-wide text-secondary">Private Archive Club</h4>
             <p className="text-sm text-white/70 leading-relaxed">
               Quiet releases, seasonal capsule updates, and member-only pre-orders. No spam, ever.
             </p>
@@ -129,7 +129,7 @@ export default function Footer() {
                 <span>Thank you for joining our private circle.</span>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-2 pt-1">
+              <form onSubmit={handleSubmit} className="space-y-2.5 max-w-sm">
                 <div className="relative flex items-center">
                   <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                   <input
@@ -143,12 +143,12 @@ export default function Footer() {
                   <Button
                     type="submit"
                     size="sm"
-                    className="absolute right-1 rounded-pill bg-secondary text-primary hover:bg-white text-[10px] font-bold uppercase tracking-wider px-3.5"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-pill bg-secondary text-primary hover:bg-white text-xs font-semibold tracking-wide px-3.5 py-1.5 h-auto shadow-none"
                   >
                     Join
                   </Button>
                 </div>
-                <p className="text-[11px] text-white/40">
+                <p className="text-xs text-white/60">
                   By joining, you agree to our Privacy Policy and Terms.
                 </p>
               </form>
@@ -159,7 +159,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/15 bg-forest-dark">
-        <div className="container-tight flex flex-col items-center justify-between gap-4 py-6 text-xs text-white/60 md:flex-row">
+        <div className="container-tight flex flex-col items-center justify-between gap-4 py-8 pb-10 text-xs text-white/60 md:flex-row">
           <p>© {new Date().getFullYear()} Uclothes Clothing Brand. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <span className="hover:text-white transition-colors cursor-pointer">Privacy Notice</span>

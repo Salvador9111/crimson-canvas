@@ -29,9 +29,9 @@ export default function Home() {
     <div className="animate-fade-up">
       {/* Hero Section — Editorial clothing layout per ChatGPT guidelines */}
       <section className="relative overflow-hidden border-b border-border bg-background">
-        <div className="container-tight grid items-center py-12 md:grid-cols-12 md:py-20 gap-10">
+        <div className="container-tight grid items-center py-10 md:grid-cols-12 md:py-14 gap-10">
           <div className="md:col-span-6 flex flex-col justify-center space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-pill bg-secondary px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary w-fit">
+            <div className="inline-flex items-center gap-2 rounded-pill bg-secondary px-3.5 py-1.5 text-xs font-semibold tracking-wide text-primary w-fit">
               <Sparkles className="h-3.5 w-3.5" />
               <span>Autumn / Winter Collection 2026</span>
             </div>
@@ -45,13 +45,13 @@ export default function Home() {
               A thoughtful wardrobe of shirts, tees, and trousers cut from honest organic fabrics in a quiet, harmonious palette of sage, off-white, and charcoal.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-4">
-              <Button asChild size="lg" className="rounded-pill bg-primary px-9 py-6 text-sm font-semibold uppercase tracking-[0.12em] text-white shadow-soft hover:bg-forest-hover">
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Button asChild size="lg" className="rounded-pill bg-primary px-8 py-5 text-sm font-semibold tracking-wide text-white shadow-soft hover:bg-forest-hover">
                 <Link to="/products">
                   Shop Now <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="rounded-pill border-border bg-white px-8 py-6 text-sm font-semibold uppercase tracking-[0.12em] text-foreground hover:bg-secondary">
+              <Button asChild size="lg" variant="outline" className="rounded-pill border-border bg-white px-7 py-5 text-sm font-semibold tracking-wide text-foreground hover:bg-secondary">
                 <Link to="/products?category=shirts">Explore Shirts</Link>
               </Button>
             </div>
@@ -82,8 +82,10 @@ export default function Home() {
                   <p className="text-xs font-semibold uppercase tracking-wider text-primary">Featured Look</p>
                   <p className="text-sm font-bold text-foreground">The French Linen & Pleated Trouser</p>
                 </div>
-                <Button asChild size="sm" variant="ghost" className="text-primary hover:bg-secondary rounded-pill">
-                  <Link to="/products">View</Link>
+                <Button asChild size="sm" className="rounded-pill bg-primary hover:bg-forest-hover text-white text-xs font-semibold tracking-wider px-4 py-2 shadow-soft transition-all">
+                  <Link to="/products" aria-label="Shop the featured French Linen and Pleated Trouser look">
+                    Shop Look <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -94,18 +96,17 @@ export default function Home() {
       {/* Categories Showcase */}
       <section className="py-20 bg-background">
         <div className="container-tight">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Wardrobe Foundations</p>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl text-charcoal-dark">
-                Shop by Category
-              </h2>
-            </div>
+          <div className="mb-10 max-w-xl">
+            <p className="text-xs font-semibold tracking-wide text-primary">Wardrobe Foundations</p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl text-charcoal-dark">
+              Shop by Category
+            </h2>
             <Link
               to="/products"
-              className="inline-flex items-center text-xs font-bold uppercase tracking-[0.16em] text-primary hover:opacity-75 transition-opacity"
+              className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-primary hover:text-forest-hover transition-colors"
             >
-              Browse all categories <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+              <span>Browse all categories</span>
+              <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
 
@@ -114,19 +115,29 @@ export default function Home() {
               <Link
                 key={c.slug}
                 to={`/products?category=${c.slug}`}
-                className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-secondary border border-border/80 shadow-soft"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-white transition-all duration-300 hover:border-primary/50 hover:shadow-[0_0_24px_rgba(82,102,83,0.18)] hover:-translate-y-1"
               >
-                <img
-                  src={`/products/p-${c.slug === "t-shirts" ? "tshirt" : c.slug === "shirts" ? "shirt" : "trouser"}-1.jpg`}
-                  alt={c.label}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                <div className="absolute inset-0 flex flex-col justify-end p-6 z-10">
-                  <div className="rounded-xl bg-white/95 px-5 py-4 backdrop-blur-md transition-all duration-300 group-hover:bg-white group-hover:translate-y-[-4px]">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">Explore</p>
-                    <p className="text-xl font-bold text-foreground">{c.label}</p>
+                {/* Apparel Image — completely unobstructed */}
+                <div className="relative aspect-[4/5] overflow-hidden bg-secondary">
+                  <img
+                    src={`/products/p-${c.slug === "t-shirts" ? "tshirt" : c.slug === "shirts" ? "shirt" : "trouser"}-1.jpg`}
+                    alt={c.label}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                </div>
+
+                {/* Placed Below Respective Apparel */}
+                <div className="flex items-center justify-between p-5 bg-white transition-colors duration-300 border-t border-border/60">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-semibold tracking-wide text-primary">Collection</p>
+                    <p className="text-xl sm:text-2xl font-bold text-foreground mt-0.5 truncate">{c.label}</p>
+                  </div>
+
+                  {/* Explore Button: Forest Green by default, switches to White with proper luminous glow when cursor is placed on it */}
+                  <div className="flex items-center gap-1.5 rounded-pill bg-primary text-white border border-primary px-4 py-2 text-xs font-semibold tracking-wide shadow-soft shrink-0 transition-all duration-300 cursor-pointer hover:bg-white hover:text-primary hover:border-primary hover:scale-105 hover:shadow-[0_0_25px_rgba(82,102,83,0.65)] hover:ring-4 hover:ring-primary/20">
+                    <span>Explore</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
                 </div>
               </Link>
@@ -138,21 +149,21 @@ export default function Home() {
       {/* Featured & New Arrivals with Tab Filters */}
       <section className="py-20 bg-white border-y border-border">
         <div className="container-tight">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Curated Selection</p>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl text-charcoal-dark">
-                Featured & New Arrivals
-              </h2>
-            </div>
+          {/* Centered section header and filter pills for optimal visual proximity */}
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <p className="text-xs font-semibold tracking-wide text-primary">Curated Selection</p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl text-charcoal-dark">
+              Featured & New Arrivals
+            </h2>
 
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap gap-2">
+            {/* Category Filter Pills in close proximity */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
               {[{ slug: "all", label: "All Items" }, ...CATEGORIES].map(t => (
                 <button
                   key={t.slug}
                   onClick={() => setActiveTab(t.slug)}
-                  className={`rounded-pill px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition-all duration-200 ${
+                  aria-pressed={activeTab === t.slug}
+                  className={`rounded-pill px-4 py-2 text-xs font-semibold tracking-wider transition-all duration-200 cursor-pointer ${
                     activeTab === t.slug
                       ? "bg-primary text-white shadow-soft"
                       : "bg-secondary/70 text-foreground/80 hover:bg-secondary hover:text-foreground"
@@ -172,8 +183,10 @@ export default function Home() {
           </div>
 
           <div className="mt-12 text-center">
-            <Button asChild size="lg" variant="outline" className="rounded-pill border-border px-10 hover:bg-secondary">
-              <Link to="/products">View All Products ({featured.length})</Link>
+            <Button asChild size="lg" variant="outline" className="rounded-pill border-border px-9 py-5 text-xs font-semibold tracking-wide hover:bg-secondary">
+              <Link to="/products">
+                Explore All Garments <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+              </Link>
             </Button>
           </div>
         </div>

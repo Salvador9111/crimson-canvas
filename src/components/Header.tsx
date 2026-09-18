@@ -90,7 +90,7 @@ export default function Header() {
             {/* Search Input */}
             <form
               onSubmit={submit}
-              className={`hidden md:flex items-center rounded-pill bg-background border transition-all duration-300 px-3.5 py-1.5 ${
+              className={`hidden md:flex items-center h-10 rounded-pill bg-background border transition-all duration-300 px-4 ${
                 searchFocused
                   ? "border-primary ring-2 ring-primary/20 w-64 bg-white"
                   : "border-border hover:border-border/80 w-48"
@@ -103,7 +103,7 @@ export default function Header() {
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
                 placeholder="Search"
-                className="w-full bg-transparent px-2.5 text-xs text-foreground placeholder:text-muted-foreground outline-none"
+                className="w-full bg-transparent px-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none"
               />
             </form>
 
