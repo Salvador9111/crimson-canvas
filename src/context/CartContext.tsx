@@ -14,6 +14,7 @@ export type CartItem = {
     image_url: string | null;
     slug: string;
     stock: number;
+    category?: string;
   };
 };
 
@@ -41,7 +42,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     const { data, error } = await supabase
       .from("cart_items")
-      .select("id, product_id, quantity, product:products(id, name, price, image_url, slug, stock)")
+      .select("id, product_id, quantity, product:products(id, name, price, image_url, slug, stock, category)")
       .eq("user_id", user.id);
     if (!error && data) setItems(data as any);
     setLoading(false);

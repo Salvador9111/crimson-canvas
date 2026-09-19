@@ -5,7 +5,7 @@ import ProductCard, { ProductCardItem } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import hero from "@/assets/hero.jpg";
 import { CATEGORIES } from "@/lib/format";
-import { Truck, RotateCcw, ShieldCheck, Star, Leaf, Factory, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Truck, RotateCcw, ShieldCheck, Star, Leaf, Factory, Sparkles, ArrowRight } from "lucide-react";
 import { INITIAL_PRODUCTS } from "@/lib/products";
 
 export default function Home() {
@@ -28,43 +28,27 @@ export default function Home() {
   return (
     <div className="animate-fade-up">
       {/* Hero Section — Editorial clothing layout per ChatGPT guidelines */}
-      <section className="relative overflow-hidden border-b border-border bg-background">
-        <div className="container-tight grid items-center py-10 md:grid-cols-12 md:py-14 gap-10">
-          <div className="md:col-span-6 flex flex-col justify-center space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-pill bg-secondary px-3.5 py-1.5 text-xs font-semibold tracking-wide text-primary w-fit">
-              <Sparkles className="h-3.5 w-3.5" />
-              <span>Autumn / Winter Collection 2026</span>
-            </div>
-
-            {/* Headline recommended by ChatGPT */}
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-charcoal-dark leading-[1.08]">
-              Elevate Your Everyday Style.
+      <section className="relative overflow-hidden border-b border-border bg-background isolate">
+        <div className="container-tight grid items-start pt-2 pb-10 md:grid-cols-12 md:pt-4 md:pb-14 gap-8 md:gap-10">
+          <div className="md:col-span-6 flex flex-col justify-start md:pt-1 lg:pt-2">
+            {/* Headline */}
+            <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-[4.5rem] xl:text-[5rem] text-charcoal-dark leading-[1.04]">
+              Elevate Your Everyday Style
             </h1>
 
-            <p className="max-w-xl text-base text-muted-foreground leading-relaxed md:text-lg">
+            <p className="mt-8 md:mt-11 max-w-xl text-base text-muted-foreground leading-relaxed md:text-lg">
               A thoughtful wardrobe of shirts, tees, and trousers cut from honest organic fabrics in a quiet, harmonious palette of sage, off-white, and charcoal.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="mt-10 md:mt-14 flex flex-wrap items-center gap-4">
               <Button asChild size="lg" className="rounded-pill bg-primary px-8 py-5 text-sm font-semibold tracking-wide text-white shadow-soft hover:bg-forest-hover">
                 <Link to="/products">
                   Shop Now <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="rounded-pill border-border bg-white px-7 py-5 text-sm font-semibold tracking-wide text-foreground hover:bg-secondary">
-                <Link to="/products?category=shirts">Explore Shirts</Link>
+              <Button asChild size="lg" variant="outline" className="rounded-pill border border-black bg-white px-7 py-5 text-sm font-semibold tracking-wide text-black hover:bg-black hover:text-white transition-colors">
+                <Link to="/products">Explore</Link>
               </Button>
-            </div>
-
-            <div className="flex items-center gap-6 pt-4 text-xs font-medium text-muted-foreground">
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span>GOTS Organic Cotton</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span>Plastic-Free Packaging</span>
-              </div>
             </div>
           </div>
 
@@ -77,7 +61,7 @@ export default function Home() {
                 height={1024}
                 className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
               />
-              <div className="absolute bottom-5 left-5 right-5 rounded-xl bg-white/95 p-4 shadow-soft backdrop-blur-md border border-white/40 flex items-center justify-between">
+              <div className="absolute bottom-5 left-5 right-5 rounded-xl bg-white p-4 shadow-soft border border-border flex items-center justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-primary">Featured Look</p>
                   <p className="text-sm font-bold text-foreground">The French Linen & Pleated Trouser</p>
@@ -163,11 +147,10 @@ export default function Home() {
                   key={t.slug}
                   onClick={() => setActiveTab(t.slug)}
                   aria-pressed={activeTab === t.slug}
-                  className={`rounded-pill px-4 py-2 text-xs font-semibold tracking-wider transition-all duration-200 cursor-pointer ${
-                    activeTab === t.slug
+                  className={`rounded-pill px-4 py-2 text-xs font-semibold tracking-wider transition-all duration-200 cursor-pointer ${activeTab === t.slug
                       ? "bg-primary text-white shadow-soft"
                       : "bg-secondary/70 text-foreground/80 hover:bg-secondary hover:text-foreground"
-                  }`}
+                    }`}
                 >
                   {t.label}
                 </button>
@@ -200,7 +183,7 @@ export default function Home() {
             <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl text-charcoal-dark">
               Crafted with intention and conscience.
             </h2>
-            <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+            <p className="mt-4 text-sm text-foreground/80 leading-relaxed">
               We design minimalist garments using uncompromised materials that grow softer with every wash and wear.
             </p>
           </div>

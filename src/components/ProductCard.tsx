@@ -43,7 +43,7 @@ export default function ProductCard({ p }: { p: ProductCardItem }) {
 
         {/* Soft Sage Badge */}
         <div className="absolute top-3 left-3 z-10 pointer-events-none">
-          <span className="rounded-pill bg-white/95 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-primary shadow-soft backdrop-blur-sm">
+          <span className="rounded-pill bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-primary shadow-soft">
             {badgeText}
           </span>
         </div>
@@ -68,7 +68,7 @@ export default function ProductCard({ p }: { p: ProductCardItem }) {
       {/* Product Information & Action Area */}
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="font-semibold capitalize tracking-wide text-primary/80">{p.category}</span>
+          <span className="font-semibold capitalize tracking-wide text-primary">{p.category}</span>
           <span className="text-xs font-medium text-muted-foreground tracking-wide">In Stock</span>
         </div>
 
