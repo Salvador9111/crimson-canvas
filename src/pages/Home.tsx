@@ -27,48 +27,74 @@ export default function Home() {
 
   return (
     <div className="animate-fade-up">
-      {/* Hero Section — Editorial clothing layout per ChatGPT guidelines */}
-      <section className="relative overflow-hidden border-b border-border bg-background isolate">
-        <div className="container-tight grid items-start pt-2 pb-10 md:grid-cols-12 md:pt-4 md:pb-14 gap-8 md:gap-10">
-          <div className="md:col-span-6 flex flex-col justify-start md:pt-1 lg:pt-2">
-            {/* Headline */}
-            <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-[4.5rem] xl:text-[5rem] text-charcoal-dark leading-[1.04]">
-              Elevate Your Everyday Style
-            </h1>
+      {/* Hero Section — Full Landscape Editorial with Girl's Picture in Background */}
+      <section className="relative w-full overflow-hidden min-h-[580px] sm:min-h-[640px] md:min-h-[680px] lg:min-h-[740px] flex items-center bg-[#1c1917] border-b border-border isolate">
+        {/* Vertical Crimson Accent Stripe on far left edge matching reference */}
+        <div className="absolute left-0 top-0 bottom-0 w-2 md:w-2.5 bg-[#8B1E3F] z-20" aria-hidden="true" />
 
-            <p className="mt-8 md:mt-11 max-w-xl text-base text-muted-foreground leading-relaxed md:text-lg">
-              A thoughtful wardrobe of shirts, tees, and trousers cut from honest organic fabrics in a quiet, harmonious palette of sage, off-white, and charcoal.
-            </p>
+        {/* Background Image: Girl in landscape format spanning the whole hero */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <img
+            src={hero}
+            alt="Crimson Canvas Collection — Model in landscape background"
+            className="w-full h-full object-cover object-top origin-top scale-110 sm:scale-115 md:scale-120 translate-x-[8%] sm:translate-x-[12%] md:translate-x-[15%] lg:translate-x-[18%] transition-transform duration-700 ease-out"
+          />
 
-            <div className="mt-10 md:mt-14 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="rounded-pill bg-primary px-8 py-5 text-sm font-semibold tracking-wide text-white shadow-soft hover:bg-forest-hover">
-                <Link to="/products">
-                  Shop Now <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="rounded-pill border border-black bg-white px-7 py-5 text-sm font-semibold tracking-wide text-black hover:bg-black hover:text-white transition-colors">
-                <Link to="/products">Explore</Link>
-              </Button>
+          {/* Scrim & Gradients: Deep left vignette for crystal-clear text readability without washing out the model */}
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 via-40% to-transparent to-75% md:from-black/85 md:via-black/45 md:via-45% md:to-transparent md:to-75%"
+            aria-hidden="true"
+          />
+          {/* Subtle top & bottom shadow for cinematic depth */}
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 pointer-events-none"
+            aria-hidden="true"
+          />
+          {/* Ambient crimson glow */}
+          <div
+            className="absolute -left-20 bottom-0 w-80 h-80 bg-[#8B1E3F]/20 rounded-full blur-3xl pointer-events-none"
+            aria-hidden="true"
+          />
+        </div>
+
+        {/* Hero Editorial Content */}
+        <div className="container-tight relative z-10 py-16 sm:py-20 md:py-24 lg:py-28 pl-4 sm:pl-6 md:pl-8">
+          <div className="max-w-2xl text-left">
+            {/* Editorial Title Block with Left Vertical Line Indicator matching reference */}
+            <div className="border-l border-white/40 pl-5 sm:pl-6 py-1">
+              <p className="text-xs sm:text-sm font-semibold tracking-[0.24em] uppercase text-[#E5B6BD] mb-3 md:mb-4">
+                EDITION 01 — THE WEARABLE ARCHIVE
+              </p>
+
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] xl:text-[5.25rem] font-normal text-white leading-[1.04] tracking-tight drop-shadow-sm">
+                Dress like a work<br />in progress.
+              </h1>
             </div>
-          </div>
 
-          <div className="md:col-span-6 relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-secondary shadow-card">
-              <img
-                src={hero}
-                alt="Model wearing quiet luxury clothing by Uclothes"
-                width={1536}
-                height={1024}
-                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-              />
-              <div className="absolute bottom-5 left-5 right-5 rounded-xl bg-white p-4 shadow-soft border border-border flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-primary">Featured Look</p>
-                  <p className="text-sm font-bold text-foreground">The French Linen & Pleated Trouser</p>
-                </div>
-                <Button asChild size="sm" className="rounded-pill bg-primary hover:bg-forest-hover text-white text-xs font-semibold tracking-wider px-4 py-2 shadow-soft transition-all">
-                  <Link to="/products" aria-label="Shop the featured French Linen and Pleated Trouser look">
-                    Shop Look <ArrowRight className="ml-1 h-3.5 w-3.5" />
+            {/* Subtitle & Buttons aligned flush with the inner text */}
+            <div className="pl-5 sm:pl-6">
+              <p className="mt-7 md:mt-8 max-w-xl text-base sm:text-lg text-white/90 leading-relaxed font-light drop-shadow-sm">
+                Quiet forms, tactile cloth and a streak of crimson. Made for the life that happens beyond the frame.
+              </p>
+
+              <div className="mt-8 md:mt-11 flex flex-wrap items-center gap-4">
+                <Button
+                  asChild
+                  size="lg"
+                  className="rounded-none bg-[#8B1E3F] hover:bg-[#721531] text-white px-7 py-5 text-sm font-semibold tracking-wide shadow-md transition-all cursor-pointer"
+                >
+                  <Link to="/products">
+                    Enter the collection
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="rounded-none border border-neutral-800 bg-white hover:bg-neutral-100 text-neutral-900 px-7 py-5 text-sm font-semibold tracking-wide transition-colors cursor-pointer"
+                >
+                  <Link to="/about">
+                    Read the material notes
                   </Link>
                 </Button>
               </div>
@@ -148,8 +174,8 @@ export default function Home() {
                   onClick={() => setActiveTab(t.slug)}
                   aria-pressed={activeTab === t.slug}
                   className={`rounded-pill px-4 py-2 text-xs font-semibold tracking-wider transition-all duration-200 cursor-pointer ${activeTab === t.slug
-                      ? "bg-primary text-white shadow-soft"
-                      : "bg-secondary/70 text-foreground/80 hover:bg-secondary hover:text-foreground"
+                    ? "bg-primary text-white shadow-soft"
+                    : "bg-secondary/70 text-foreground/80 hover:bg-secondary hover:text-foreground"
                     }`}
                 >
                   {t.label}
@@ -179,7 +205,7 @@ export default function Home() {
       <section className="py-24 bg-background">
         <div className="container-tight">
           <div className="mx-auto max-w-2xl text-center mb-16">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Why Uclothes</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#8B1E3F]">Why Crimson Canvas</p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl text-charcoal-dark">
               Crafted with intention and conscience.
             </h2>

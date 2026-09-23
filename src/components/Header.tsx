@@ -48,8 +48,8 @@ export default function Header() {
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-md shadow-soft border-b border-border/80"
-            : "bg-white border-b border-border"
+            ? "bg-white/80 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.06)] border-b border-neutral-200/60"
+            : "bg-white/70 backdrop-blur-md border-b border-neutral-200/50 shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
         }`}
       >
         <div className="container-tight flex h-[72px] items-center justify-between gap-6">
@@ -62,70 +62,101 @@ export default function Header() {
             {open ? <X className="h-5 w-5" strokeWidth={1.75} /> : <Menu className="h-5 w-5" strokeWidth={1.75} />}
           </button>
 
-          {/* Logo — Clean contemporary typography */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <span className="text-2xl font-bold tracking-tight text-charcoal-dark group-hover:text-primary transition-colors">
-              Uclothes
+          {/* Logo — CRIMSON CANVAS typography matching reference */}
+          <Link to="/" className="flex flex-col group py-0.5 select-none">
+            <span className="font-serif text-lg sm:text-xl font-extrabold tracking-[0.18em] text-neutral-900 leading-none uppercase">
+              CRIMSON
+            </span>
+            <span className="font-serif text-[10px] sm:text-[11px] font-bold tracking-[0.32em] text-[#8B1E3F] leading-tight mt-0.5 uppercase">
+              CANVAS
             </span>
           </Link>
 
-          {/* Nav links — clean text without colored background pills */}
-          <nav className="hidden items-center gap-8 md:flex">
-            <Link to="/" className={getLinkCls(location.pathname === "/")}>Home</Link>
-            <Link to="/products" className={getLinkCls(location.pathname === "/products" && !currentCategory)}>Shop All</Link>
-            {CATEGORIES.map(c => (
-              <Link
-                key={c.slug}
-                to={`/products?category=${c.slug}`}
-                className={getLinkCls(location.pathname === "/products" && currentCategory === c.slug)}
-              >
-                {c.label}
-              </Link>
-            ))}
-            <Link to="/about" className={getLinkCls(location.pathname === "/about")}>About</Link>
+          {/* Nav links — clean uppercase text matching reference */}
+          <nav className="hidden items-center gap-7 lg:gap-9 md:flex">
+            <Link to="/products" className={getLinkCls(location.pathname === "/products" && !currentCategory)}>
+              SHOP
+            </Link>
+            <Link to="/products?sort=newest" className={getLinkCls(location.search.includes("sort=newest"))}>
+              NEW ARRIVALS
+            </Link>
+            <Link to="/products?category=shirts" className={getLinkCls(currentCategory === "shirts")}>
+              MEN
+            </Link>
+            <Link to="/products?category=trousers" className={getLinkCls(currentCategory === "trousers")}>
+              WOMEN
+            </Link>
+            <Link to="/about" className={getLinkCls(location.pathname === "/about")}>
+              MATERIALS
+            </Link>
           </nav>
 
-          {/* Actions: Search, Wishlist, User, Bag */}
-          <div className="flex items-center gap-4">
-            {/* Search Input */}
-            <form
-              onSubmit={submit}
-              className={`hidden md:flex items-center h-10 rounded-pill bg-background border transition-all duration-300 px-4 ${
-                searchFocused
-                  ? "border-primary ring-2 ring-primary/20 w-64 bg-white"
-                  : "border-border hover:border-border/80 w-48"
-              }`}
-            >
-              <Search className="h-4 w-4 text-muted-foreground shrink-0" strokeWidth={1.75} />
-              <input
-                value={q}
-                onChange={e => setQ(e.target.value)}
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-                placeholder="Search"
-                className="w-full bg-transparent px-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none"
-              />
-            </form>
+          {/* Actions: Search icon, Wishlist, Bag, Account matching reference */}
+          <div className="flex items-center gap-4 sm:gap-5">
+            {/* Search Icon Trigger / Expandable Input */}
+            <div className="relative flex items-center">
+              {searchFocused ? (
+                <form
+                  onSubmit={submit}
+                  className="flex items-center h-9 rounded-full bg-neutral-100 border border-[#8B1E3F] ring-2 ring-[#8B1E3F]/20 px-3 w-48 sm:w-60 transition-all duration-300"
+                >
+                  <Search className="h-4 w-4 text-neutral-500 shrink-0" strokeWidth={1.75} />
+                  <input
+                    autoFocus
+                    value={q}
+                    onChange={e => setQ(e.target.value)}
+                    onBlur={() => !q && setSearchFocused(false)}
+                    placeholder="Search collection..."
+                    className="w-full bg-transparent px-2 text-xs text-foreground placeholder:text-neutral-400 outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setSearchFocused(false)}
+                    className="text-neutral-400 hover:text-neutral-700 text-xs px-1"
+                  >
+                    ✕
+                  </button>
+                </form>
+              ) : (
+                <button
+                  onClick={() => setSearchFocused(true)}
+                  className="p-1.5 text-neutral-800 hover:text-[#8B1E3F] transition-colors rounded-full hover:bg-neutral-100 cursor-pointer"
+                  aria-label="Open search"
+                >
+                  <Search className="h-5 w-5" strokeWidth={1.75} />
+                </button>
+              )}
+            </div>
 
-            {/* Wishlist Link */}
+            {/* Wishlist Link with Crimson Circular Badge */}
             <Link
               to="/wishlist"
-              className="relative p-2 text-foreground/80 hover:text-primary transition-colors rounded-full hover:bg-secondary/60"
+              className="relative p-1.5 text-neutral-800 hover:text-[#8B1E3F] transition-colors rounded-full hover:bg-neutral-100"
               aria-label="View wishlist"
             >
               <Heart className="h-5 w-5" strokeWidth={1.75} />
-              {wishlistCount > 0 && (
-                <span className="absolute 0 top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white shadow-sm">
-                  {wishlistCount}
-                </span>
-              )}
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-[#8B1E3F] text-[10px] font-bold text-white shadow-sm ring-1 ring-white">
+                {wishlistCount}
+              </span>
+            </Link>
+
+            {/* Shopping Bag with Crimson Circular Badge */}
+            <Link
+              to="/cart"
+              className="relative p-1.5 text-neutral-800 hover:text-[#8B1E3F] transition-colors rounded-full hover:bg-neutral-100"
+              aria-label="Shopping bag"
+            >
+              <ShoppingBag className="h-5 w-5" strokeWidth={1.75} />
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-[#8B1E3F] text-[10px] font-bold text-white shadow-sm ring-1 ring-white">
+                {cartCount}
+              </span>
             </Link>
 
             {/* Account dropdown */}
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger
-                  className="rounded-full p-2 text-foreground/80 hover:text-primary hover:bg-secondary/60 transition-colors outline-none"
+                  className="rounded-full p-1.5 text-neutral-800 hover:text-[#8B1E3F] hover:bg-neutral-100 transition-colors outline-none"
                   aria-label="Account options"
                 >
                   <UserIcon className="h-5 w-5" strokeWidth={1.75} />
@@ -141,7 +172,7 @@ export default function Header() {
                     Wishlist ({wishlistCount})
                   </DropdownMenuItem>
                   {isAdmin && (
-                    <DropdownMenuItem onClick={() => navigate("/admin")} className="rounded-lg cursor-pointer text-primary font-medium">
+                    <DropdownMenuItem onClick={() => navigate("/admin")} className="rounded-lg cursor-pointer text-[#8B1E3F] font-medium">
                       Admin Dashboard
                     </DropdownMenuItem>
                   )}
@@ -154,31 +185,18 @@ export default function Header() {
             ) : (
               <Link
                 to="/login"
-                className="hidden sm:inline-flex text-xs font-semibold uppercase tracking-[0.14em] text-foreground/80 hover:text-primary transition-colors px-2 py-1"
+                className="p-1.5 text-neutral-800 hover:text-[#8B1E3F] transition-colors rounded-full hover:bg-neutral-100"
+                aria-label="Sign in"
               >
-                Sign in
+                <UserIcon className="h-5 w-5" strokeWidth={1.75} />
               </Link>
             )}
-
-            {/* Shopping Bag */}
-            <Link
-              to="/cart"
-              className="relative flex items-center justify-center rounded-full bg-secondary/80 p-2.5 text-primary hover:bg-secondary transition-all hover:scale-105"
-              aria-label="Shopping bag"
-            >
-              <ShoppingBag className="h-4 w-4" strokeWidth={2} />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white shadow-sm">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
           </div>
         </div>
 
         {/* Mobile menu */}
         {open && (
-          <div className="border-t border-border bg-white md:hidden animate-fade-up">
+          <div className="border-t border-neutral-200/60 bg-white/85 backdrop-blur-xl md:hidden animate-fade-up shadow-lg">
             <div className="container-tight space-y-3 py-6">
               <form onSubmit={submit} className="flex items-center rounded-pill bg-background border border-border px-4 py-2.5">
                 <Search className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />

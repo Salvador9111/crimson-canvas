@@ -9,6 +9,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['"Playfair Display"', '"Cormorant Garamond"', 'Georgia', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -33,7 +34,16 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        /* ChatGPT Suggested Uclothes Brand Colors */
+        /* Crimson Canvas Palette */
+        crimson: {
+          DEFAULT: "#8B1E3F",
+          hover: "#721531",
+          dark: "#5A1026",
+          light: "#A4264C",
+          soft: "#FDF2F4",
+          muted: "#E5B6BD",
+        },
+        /* ChatGPT Suggested Brand Colors */
         "sage": {
           DEFAULT: "#E8F0E8",
           light: "#F2F7F2",
