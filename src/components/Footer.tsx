@@ -3,7 +3,7 @@ import { Instagram, Facebook, Twitter, Mail, MapPin, Clock, Leaf, Truck, RotateC
 
 export default function Footer() {
   return (
-    <footer className="relative mt-16 sm:mt-20 border-t border-neutral-800 bg-[#141212] text-white isolate overflow-hidden">
+    <footer id="footer" className="relative mt-16 sm:mt-20 border-t border-neutral-800 bg-[#141212] text-white isolate overflow-hidden">
       {/* Signature Vertical Crimson Stripe on Far Left Edge */}
       <div className="absolute left-0 top-0 bottom-0 w-1.5 md:w-2 bg-[#8B1E3F] z-20" aria-hidden="true" />
 

@@ -36,6 +36,13 @@ export default function Header() {
     }
   };
 
+  const scrollToFooter = () => {
+    const footer = document.getElementById("footer");
+    if (footer) {
+      footer.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const getLinkCls = (active: boolean) =>
     `text-sm font-medium transition-colors duration-200 ${
       active
@@ -52,47 +59,53 @@ export default function Header() {
             : "bg-white/70 backdrop-blur-md border-b border-neutral-200/50 shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
         }`}
       >
-        <div className="container-tight flex h-[72px] items-center justify-between gap-6">
-          {/* Mobile menu trigger */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="md:hidden p-1.5 text-foreground hover:text-primary transition-colors"
-            aria-label="Toggle menu"
-          >
-            {open ? <X className="h-5 w-5" strokeWidth={1.75} /> : <Menu className="h-5 w-5" strokeWidth={1.75} />}
-          </button>
+        <div className="container-tight flex h-[72px] items-center justify-between gap-4">
+          {/* Left: Mobile menu trigger & Brand Logo */}
+          <div className="flex-1 flex items-center justify-start gap-3">
+            <button
+              onClick={() => setOpen(!open)}
+              className="md:hidden p-1.5 text-foreground hover:text-primary transition-colors"
+              aria-label="Toggle menu"
+            >
+              {open ? <X className="h-5 w-5" strokeWidth={1.75} /> : <Menu className="h-5 w-5" strokeWidth={1.75} />}
+            </button>
 
-          {/* Logo — CRIMSON CANVAS typography matching reference */}
-          <Link to="/" className="flex flex-col group py-0.5 select-none">
-            <span className="font-serif text-lg sm:text-xl font-extrabold tracking-[0.18em] text-neutral-900 leading-none uppercase">
-              CRIMSON
-            </span>
-            <span className="font-serif text-[10px] sm:text-[11px] font-bold tracking-[0.32em] text-[#8B1E3F] leading-tight mt-0.5 uppercase">
-              CANVAS
-            </span>
-          </Link>
+            {/* Logo — CRIMSON CANVAS typography matching reference */}
+            <Link to="/" className="flex flex-col group py-0.5 select-none">
+              <span className="font-serif text-lg sm:text-xl font-extrabold tracking-[0.18em] text-neutral-900 leading-none uppercase">
+                CRIMSON
+              </span>
+              <span className="font-serif text-[10px] sm:text-[11px] font-bold tracking-[0.32em] text-[#8B1E3F] leading-tight mt-0.5 uppercase">
+                CANVAS
+              </span>
+            </Link>
+          </div>
 
-          {/* Nav links — clean uppercase text matching reference */}
-          <nav className="hidden items-center gap-7 lg:gap-9 md:flex">
-            <Link to="/products" className={getLinkCls(location.pathname === "/products" && !currentCategory)}>
+          {/* Nav links — 5 clean uppercase buttons perfectly centralized */}
+          <nav className="hidden items-center justify-center gap-5 md:gap-6 lg:gap-8 md:flex shrink-0">
+            <Link to="/" className={getLinkCls(location.pathname === "/")}>
+              HOME
+            </Link>
+            <Link to="/products" className={getLinkCls(location.pathname === "/products" && !currentCategory && !location.search.includes("sort=newest"))}>
               SHOP
             </Link>
             <Link to="/products?sort=newest" className={getLinkCls(location.search.includes("sort=newest"))}>
               NEW ARRIVALS
             </Link>
-            <Link to="/products?category=shirts" className={getLinkCls(currentCategory === "shirts")}>
-              MEN
-            </Link>
-            <Link to="/products?category=trousers" className={getLinkCls(currentCategory === "trousers")}>
-              WOMEN
-            </Link>
             <Link to="/about" className={getLinkCls(location.pathname === "/about")}>
               MATERIALS
             </Link>
+            <button
+              type="button"
+              onClick={scrollToFooter}
+              className="text-sm font-medium text-foreground/75 hover:text-foreground transition-colors duration-200 cursor-pointer uppercase tracking-normal"
+            >
+              CONTACT
+            </button>
           </nav>
 
-          {/* Actions: Search icon, Wishlist, Bag, Account matching reference */}
-          <div className="flex items-center gap-4 sm:gap-5">
+          {/* Right Actions: Search icon, Wishlist, Bag, Account matching reference */}
+          <div className="flex-1 flex items-center justify-end gap-4 sm:gap-5">
             {/* Search Icon Trigger / Expandable Input */}
             <div className="relative flex items-center">
               {searchFocused ? (
@@ -209,7 +222,8 @@ export default function Header() {
               </form>
               <div className="pt-2 space-y-1">
                 <Link to="/" onClick={() => setOpen(false)} className={`block px-3 py-2 text-sm font-medium ${location.pathname === "/" ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"}`}>Home</Link>
-                <Link to="/products" onClick={() => setOpen(false)} className={`block px-3 py-2 text-sm font-medium ${location.pathname === "/products" && !currentCategory ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"}`}>Shop All</Link>
+                <Link to="/products" onClick={() => setOpen(false)} className={`block px-3 py-2 text-sm font-medium ${location.pathname === "/products" && !currentCategory && !location.search.includes("sort=newest") ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"}`}>Shop All</Link>
+                <Link to="/products?sort=newest" onClick={() => setOpen(false)} className={`block px-3 py-2 text-sm font-medium ${location.search.includes("sort=newest") ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"}`}>New Arrivals</Link>
                 {CATEGORIES.map(c => (
                   <Link
                     key={c.slug}
@@ -221,13 +235,23 @@ export default function Header() {
                   </Link>
                 ))}
                 <Link to="/about" onClick={() => setOpen(false)} className={`block px-3 py-2 text-sm font-medium ${location.pathname === "/about" ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground"}`}>About</Link>
-                <NavLink to="/wishlist" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-secondary">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    setTimeout(scrollToFooter, 150);
+                  }}
+                  className="block w-full text-left px-3 py-2 text-sm font-medium text-foreground/80 hover:text-foreground cursor-pointer"
+                >
+                  Contact
+                </button>
+                <Link to="/wishlist" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-secondary">
                   Wishlist ({wishlistCount})
-                </NavLink>
+                </Link>
                 {!user && (
-                  <NavLink to="/login" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-primary rounded-lg hover:bg-secondary">
+                  <Link to="/login" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-primary rounded-lg hover:bg-secondary">
                     Sign in / Register
-                  </NavLink>
+                  </Link>
                 )}
               </div>
             </div>

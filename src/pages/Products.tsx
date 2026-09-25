@@ -23,7 +23,7 @@ export default function Products() {
   const [params, setParams] = useSearchParams();
   const cat = params.get("category") ?? "all";
   const q = params.get("q") ?? "";
-  const sort = params.get("sort") ?? "newest";
+  const sort = params.get("sort") ?? "price-asc";
 
   // Instant render without skeleton screen delay
   const [items, setItems] = useState<ProductCardItem[]>(() => getFilteredInitial(cat, q, sort));
@@ -50,7 +50,7 @@ export default function Products() {
 
   const setParam = (k: string, v: string) => {
     const next = new URLSearchParams(params);
-    if (!v || v === "all") next.delete(k); else next.set(k, v);
+    if (!v || v === "all" || (k === "sort" && v === "price-asc")) next.delete(k); else next.set(k, v);
     setParams(next, { replace: true });
   };
 
@@ -115,9 +115,9 @@ export default function Products() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
-              <SelectItem value="newest" className="text-xs">Newest Arrivals</SelectItem>
               <SelectItem value="price-asc" className="text-xs">Price: Low to High</SelectItem>
               <SelectItem value="price-desc" className="text-xs">Price: High to Low</SelectItem>
+              <SelectItem value="newest" className="text-xs">Newest Arrivals</SelectItem>
               <SelectItem value="name" className="text-xs">Alphabetical</SelectItem>
             </SelectContent>
           </Select>
