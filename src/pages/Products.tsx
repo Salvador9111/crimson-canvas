@@ -7,17 +7,9 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Search, SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowUpDown, X } from "lucide-react";
 import { INITIAL_PRODUCTS } from "@/lib/products";
-
-const getFilteredInitial = (category: string, queryStr: string, sortOrder: string): ProductCardItem[] => {
-  let res = [...INITIAL_PRODUCTS];
-  if (category !== "all") res = res.filter(i => i.category === category);
-  if (queryStr) res = res.filter(i => i.name.toLowerCase().includes(queryStr.toLowerCase()));
-  if (sortOrder === "price-asc") res.sort((a, b) => a.price - b.price);
-  else if (sortOrder === "price-desc") res.sort((a, b) => b.price - a.price);
-  return res as any;
-};
+import { filterAndSortProducts } from "@/lib/search";
 
 export default function Products() {
   const [params, setParams] = useSearchParams();
@@ -26,24 +18,24 @@ export default function Products() {
   const sort = params.get("sort") ?? "price-asc";
 
   // Instant render without skeleton screen delay
-  const [items, setItems] = useState<ProductCardItem[]>(() => getFilteredInitial(cat, q, sort));
+  const [items, setItems] = useState<ProductCardItem[]>(() =>
+    filterAndSortProducts(INITIAL_PRODUCTS as any, cat, q, sort)
+  );
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Instant synchronous update on filter change
-    setItems(getFilteredInitial(cat, q, sort));
+    // Instant synchronous update on filter change with smart approximate matching
+    const initialFiltered = filterAndSortProducts(INITIAL_PRODUCTS as any, cat, q, sort);
+    setItems(initialFiltered);
 
-    let query = supabase.from("products").select("id,slug,name,price,image_url,category");
+    // Fetch latest from Supabase and apply the same smart approximate filtering
+    let query = supabase.from("products").select("id,slug,name,price,image_url,category,description");
     if (cat !== "all") query = query.eq("category", cat);
-    if (q) query = query.ilike("name", `%${q}%`);
-    if (sort === "price-asc") query = query.order("price", { ascending: true });
-    else if (sort === "price-desc") query = query.order("price", { ascending: false });
-    else if (sort === "name") query = query.order("name", { ascending: true });
-    else query = query.order("created_at", { ascending: false });
 
     query.then(({ data }) => {
       if (data && data.length > 0) {
-        setItems(data as any);
+        const filtered = filterAndSortProducts(data as any, cat, q, sort);
+        setItems(filtered);
       }
     });
   }, [cat, q, sort]);
@@ -98,14 +90,24 @@ export default function Products() {
 
         <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
           {/* Search */}
-          <div className="relative flex-1 sm:w-56">
+          <div className="relative flex-1 sm:w-60">
             <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              defaultValue={q}
+              value={q}
               onChange={e => setParam("q", e.target.value)}
-              placeholder="Filter by name..."
-              className="rounded-pill pl-9 text-xs border-border bg-background"
+              placeholder="Filter garments (e.g. t-shirt)..."
+              className="rounded-pill pl-9 pr-8 text-xs border-border bg-background"
             />
+            {q && (
+              <button
+                type="button"
+                onClick={() => setParam("q", "")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground text-xs"
+                title="Clear search"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
           </div>
 
           {/* Sort */}

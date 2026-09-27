@@ -3,7 +3,7 @@ import { Instagram, Facebook, Twitter, Mail, MapPin, Clock, Leaf, Truck, RotateC
 
 export default function Footer() {
   return (
-    <footer id="footer" className="relative mt-16 sm:mt-20 border-t border-neutral-800 bg-[#141212] text-white isolate overflow-hidden">
+    <footer id="footer" className="relative mt-6 sm:mt-8 border-t border-neutral-800 bg-[#141212] text-white isolate overflow-hidden">
       {/* Signature Vertical Crimson Stripe on Far Left Edge */}
       <div className="absolute left-0 top-0 bottom-0 w-1.5 md:w-2 bg-[#8B1E3F] z-20" aria-hidden="true" />
 
@@ -78,21 +78,27 @@ export default function Footer() {
             {/* Social Icons */}
             <div className="flex items-center gap-2 pt-1">
               <a
-                href="#"
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-7 w-7 items-center justify-center rounded bg-white/5 border border-white/10 text-neutral-400 transition-all duration-300 hover:bg-[#8B1E3F] hover:text-white hover:border-[#8B1E3F] hover:scale-105"
                 aria-label="Instagram"
               >
                 <Instagram className="h-3.5 w-3.5" />
               </a>
               <a
-                href="#"
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-7 w-7 items-center justify-center rounded bg-white/5 border border-white/10 text-neutral-400 transition-all duration-300 hover:bg-[#8B1E3F] hover:text-white hover:border-[#8B1E3F] hover:scale-105"
                 aria-label="Facebook"
               >
                 <Facebook className="h-3.5 w-3.5" />
               </a>
               <a
-                href="#"
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-7 w-7 items-center justify-center rounded bg-white/5 border border-white/10 text-neutral-400 transition-all duration-300 hover:bg-[#8B1E3F] hover:text-white hover:border-[#8B1E3F] hover:scale-105"
                 aria-label="Twitter"
               >
@@ -139,7 +145,7 @@ export default function Footer() {
             <ul className="space-y-1.5 text-xs text-neutral-400">
               <li>
                 <Link to="/about" className="hover:text-white hover:translate-x-0.5 inline-block transition-all">
-                  Our Atelier Story
+                  Our Story
                 </Link>
               </li>
               <li>
@@ -148,12 +154,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-white hover:translate-x-0.5 inline-block transition-all">
+                <Link to="/shipping" className="hover:text-white hover:translate-x-0.5 inline-block transition-all">
                   Shipping & Delivery
                 </Link>
               </li>
               <li>
-                <Link to="/account" className="hover:text-white hover:translate-x-0.5 inline-block transition-all">
+                <Link to="/returns" className="hover:text-white hover:translate-x-0.5 inline-block transition-all">
                   Returns & Exchanges
                 </Link>
               </li>
@@ -165,9 +171,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Atelier & Inquiries Column */}
+          {/* Concierge & Inquiries Column */}
           <div className="space-y-3">
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#E5B6BD]">Atelier & Inquiries</h4>
+            <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#E5B6BD]">Concierge & Inquiries</h4>
             <div className="space-y-2 text-xs text-neutral-400">
               <p className="flex items-start gap-2">
                 <MapPin className="h-3.5 w-3.5 shrink-0 text-[#E5B6BD] mt-0.5" />
@@ -186,7 +192,7 @@ export default function Footer() {
               <div className="pt-1">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[10px] text-neutral-300 font-medium">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#8B1E3F] animate-pulse" />
-                  Atelier Open for Private Fittings
+                  Open for Private Fittings
                 </span>
               </div>
             </div>
@@ -200,9 +206,9 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} Crimson Canvas. All rights reserved.</p>
           <p className="text-neutral-500 hidden md:block">Slow fashion • Pure natural fibers • Beyond the frame</p>
           <div className="flex items-center gap-5">
-            <Link to="/about" className="hover:text-white transition-colors">Privacy Notice</Link>
-            <Link to="/about" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link to="/about" className="hover:text-white transition-colors">Cookie Preferences</Link>
+            <Link to="/privacy" className="hover:text-white transition-colors">Privacy Notice</Link>
+            <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link to="/cookies" className="hover:text-white transition-colors">Cookie Preferences</Link>
           </div>
         </div>
       </div>

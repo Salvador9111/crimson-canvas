@@ -175,3 +175,40 @@
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
+
+/* Smooth 60fps Hardware-Accelerated Tab Transitions */
+@keyframes smoothSlideInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(32px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes smoothSlideInLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-32px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-smooth-slide-right {
+  animation: smoothSlideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.animate-smooth-slide-left {
+  animation: smoothSlideInLeft 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+
+
+

@@ -9,7 +9,7 @@ export default function About() {
       {/* Editorial Banner */}
       <section className="relative overflow-hidden bg-secondary py-20 md:py-28">
         <div className="container-tight relative z-10 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">The Uclothes Philosophy</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">The Crimson Canvas Philosophy</p>
           <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-6xl text-charcoal-dark">
             Elevating Everyday Essentials.
           </h1>
@@ -31,7 +31,7 @@ export default function About() {
               Slow fashion, fastidious details.
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Founded on the belief that clothing should quietly complement the wearer rather than shout, Uclothes started as a compact atelier project. We stripped away oversized logos, disposable synthetic fibers, and seasonal rush.
+              Founded on the belief that clothing should quietly complement the wearer rather than shout, Crimson Canvas started as a compact design studio project. We stripped away oversized logos, disposable synthetic fibers, and seasonal rush.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Every shirt, t-shirt, and trouser is engineered with precision seam allowances, pre-shrunk organic weaves, and natural corozo buttons. Our palette draws inspiration from nature — sage greenery, quiet stones, ivory sands, and deep charcoal earth.

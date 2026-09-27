@@ -5,7 +5,7 @@ import ProductCard, { ProductCardItem } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import hero from "@/assets/hero.jpg";
 import { CATEGORIES } from "@/lib/format";
-import { Truck, RotateCcw, ShieldCheck, Star, Leaf, Factory, Sparkles, ArrowRight } from "lucide-react";
+import { Truck, RotateCcw, ShieldCheck, Star, Sparkles, ArrowRight } from "lucide-react";
 import { INITIAL_PRODUCTS } from "@/lib/products";
 
 export default function Home() {
@@ -201,10 +201,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Brand Pillars & Craftsmanship */}
-      <section className="py-24 bg-background">
+      {/* Brand Statement & Craftsmanship */}
+      <section className="pt-14 pb-8 md:pt-18 md:pb-10 bg-background">
         <div className="container-tight">
-          <div className="mx-auto max-w-2xl text-center mb-16">
+          <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#8B1E3F]">Why Crimson Canvas</p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl text-charcoal-dark">
               Crafted with intention and conscience.
@@ -212,34 +212,6 @@ export default function Home() {
             <p className="mt-4 text-sm text-foreground/80 leading-relaxed">
               We design minimalist garments using uncompromised materials that grow softer with every wash and wear.
             </p>
-          </div>
-
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-              {
-                icon: Leaf,
-                title: "Honest Organic Fibers",
-                desc: "Long-staple organic cotton, Normandy flax linen, and regenerative wool. Zero toxic dyes, no synthetic blends."
-              },
-              {
-                icon: Factory,
-                title: "Slow, Ethical Production",
-                desc: "Crafted in limited runs by generational ateliers across Portugal and Japan. Fair wages and uncompromising attention to finish."
-              },
-              {
-                icon: Sparkles,
-                title: "Quiet, Timeless Design",
-                desc: "Minimalist geometry, subtle seam details, and quiet colors. Made to effortlessly outlive transient trends."
-              }
-            ].map(col => (
-              <div key={col.title} className="rounded-2xl border border-border bg-white p-8 transition-all hover:border-primary/40 hover:shadow-soft">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary">
-                  <col.icon className="h-6 w-6" strokeWidth={1.75} />
-                </div>
-                <h3 className="mt-6 text-lg font-bold text-foreground">{col.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{col.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

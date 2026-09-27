@@ -16,6 +16,10 @@ import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import About from "./pages/About";
+import PrivacyNotice from "./pages/PrivacyNotice";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePreferences from "./pages/CookiePreferences";
+import ShippingReturns from "./pages/ShippingReturns";
 import Checkout from "./pages/Checkout";
 import OrderConfirmed from "./pages/OrderConfirmed";
 import Account from "./pages/Account";
@@ -47,6 +51,15 @@ const App = () => (
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/wishlist" element={<Wishlist />} />
                   <Route path="/about" element={<About />} />
+                  <Route path="/privacy" element={<PrivacyNotice />} />
+                  <Route path="/privacy-notice" element={<PrivacyNotice />} />
+                  <Route path="/terms" element={<TermsOfService />} />
+                  <Route path="/terms-of-service" element={<TermsOfService />} />
+                  <Route path="/cookies" element={<CookiePreferences />} />
+                  <Route path="/cookie-preferences" element={<CookiePreferences />} />
+                  <Route path="/shipping" element={<ShippingReturns />} />
+                  <Route path="/returns" element={<ShippingReturns />} />
+                  <Route path="/shipping-returns" element={<ShippingReturns />} />
                   <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
                   <Route path="/order-confirmed/:id" element={<ProtectedRoute><OrderConfirmed /></ProtectedRoute>} />
                   <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -84,6 +84,16 @@ export default function Checkout() {
           <Button type="submit" disabled={loading} size="lg" className="w-full rounded-pill">
             {loading ? "Placing…" : "Place order"}
           </Button>
+          <p className="text-[11px] text-center text-muted-foreground leading-relaxed">
+            By placing your order, you agree to Crimson Canvas's{" "}
+            <Link to="/terms" target="_blank" className="font-medium underline hover:text-foreground">
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link to="/privacy" target="_blank" className="font-medium underline hover:text-foreground">
+              Privacy Notice
+            </Link>.
+          </p>
           <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
             <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.5} />
             Your information is encrypted and secure

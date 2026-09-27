@@ -32,8 +32,10 @@ export default function Header() {
     e.preventDefault();
     if (q.trim()) {
       navigate(`/products?q=${encodeURIComponent(q.trim())}`);
-      setOpen(false);
+    } else if (location.pathname === "/products") {
+      navigate("/products");
     }
+    setOpen(false);
   };
 
   const scrollToFooter = () => {
@@ -113,7 +115,15 @@ export default function Header() {
                   onSubmit={submit}
                   className="flex items-center h-9 rounded-full bg-neutral-100 border border-[#8B1E3F] ring-2 ring-[#8B1E3F]/20 px-3 w-48 sm:w-60 transition-all duration-300"
                 >
-                  <Search className="h-4 w-4 text-neutral-500 shrink-0" strokeWidth={1.75} />
+                  <button
+                    type="submit"
+                    onMouseDown={(e) => e.preventDefault()}
+                    className="p-1 -ml-1 text-neutral-500 hover:text-[#8B1E3F] transition-colors cursor-pointer"
+                    title="Search"
+                    aria-label="Submit search"
+                  >
+                    <Search className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+                  </button>
                   <input
                     autoFocus
                     value={q}
@@ -124,8 +134,11 @@ export default function Header() {
                   />
                   <button
                     type="button"
-                    onClick={() => setSearchFocused(false)}
-                    className="text-neutral-400 hover:text-neutral-700 text-xs px-1"
+                    onClick={() => {
+                      setQ("");
+                      setSearchFocused(false);
+                    }}
+                    className="text-neutral-400 hover:text-neutral-700 text-xs px-1 cursor-pointer"
                   >
                     ✕
                   </button>
@@ -212,12 +225,19 @@ export default function Header() {
           <div className="border-t border-neutral-200/60 bg-white/85 backdrop-blur-xl md:hidden animate-fade-up shadow-lg">
             <div className="container-tight space-y-3 py-6">
               <form onSubmit={submit} className="flex items-center rounded-pill bg-background border border-border px-4 py-2.5">
-                <Search className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
+                <button
+                  type="submit"
+                  className="mr-2 text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  title="Search"
+                  aria-label="Submit search"
+                >
+                  <Search className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+                </button>
                 <input
                   value={q}
                   onChange={e => setQ(e.target.value)}
                   placeholder="Search"
-                  className="w-full bg-transparent px-3 text-sm outline-none"
+                  className="w-full bg-transparent text-sm outline-none"
                 />
               </form>
               <div className="pt-2 space-y-1">
